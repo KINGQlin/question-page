@@ -6,113 +6,143 @@
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
-  <meta name="theme-color" content="#E8E4F2">
+  <meta name="theme-color" content="#F4EFE4">
   <title>历史人物测试新版</title>
   <style>
-    :root{--ink:#2D2458;--muted:#8880B0;--primary:#6B5DB8;--accent:#7B68C8;--bg:#E8E4F2;--line:#DDD8EE;--paper:rgba(255,255,255,.9);--soft:#F7F4FD;--shadow:0 4px 20px rgba(107,93,184,.1)}
-    *{box-sizing:border-box}
-    html{scroll-behavior:smooth}
-    body{margin:0;min-height:100vh;background:linear-gradient(145deg,#E8E4F2,#EFEAF7 55%,#E4DFEF);color:var(--ink);font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif}
-    button,input{font:inherit}
-    button{color:inherit}
-    h1,h2,p{margin-top:0}
-    .shell{width:100%;max-width:680px;margin:auto;padding:20px 16px 56px}
-    .hidden{display:none!important}
-    .card,.q-header,.q-body,.top-card,.report-section{background:var(--paper);box-shadow:var(--shadow);border:1px solid rgba(107,93,184,.08)}
-    .card{border-radius:24px;padding:24px 22px;margin-bottom:18px}
-    .icon-box{width:72px;height:72px;border-radius:20px;background:linear-gradient(135deg,var(--accent),var(--primary));display:flex;align-items:center;justify-content:center;font-size:34px;color:#fff;margin:14px auto 16px;box-shadow:0 8px 28px rgba(107,93,184,.35)}
-    .hero-title{font-size:26px;font-weight:900;text-align:center;line-height:1.35;margin-bottom:7px}
-    .hero-title em{font-style:normal;color:var(--primary)}
-    .hero-sub{font-size:12px;color:#9180CC;letter-spacing:3px;font-weight:700;text-align:center;margin-bottom:22px}
-    .lead{font-size:14px;color:#615985;line-height:1.8;text-align:center;margin-bottom:20px}
-    .stats{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:0 0 18px}
-    .stat{background:rgba(255,255,255,.86);border-radius:18px;padding:15px 10px;text-align:center;box-shadow:0 2px 14px rgba(107,93,184,.08);color:#756D9E;font-size:12px}
-    .stat b{display:block;font-size:18px;color:var(--primary);margin-bottom:3px}
-    .info-box{background:rgba(255,255,255,.65);border-left:3px solid var(--primary);border-radius:14px;padding:13px 16px;color:#5D5682;font-size:13px;line-height:1.7;margin-bottom:18px}
-    .eyebrow{font-size:13px;color:var(--primary);font-weight:800;letter-spacing:.08em;margin-bottom:8px}
-    .hint{font-size:13px;color:var(--muted);line-height:1.7}
-    .btn{border:none;border-radius:16px;padding:15px 20px;cursor:pointer;font-weight:800;transition:.15s transform,.15s box-shadow,.15s background}
-    .btn:hover{transform:translateY(-2px)}
-    .btn:focus-visible,.choice:focus-visible,.nav-btn:focus-visible{outline:3px solid rgba(123,104,200,.22);outline-offset:3px}
-    .primary{width:100%;background:linear-gradient(135deg,var(--accent),var(--primary));color:#fff;box-shadow:0 8px 24px rgba(107,93,184,.35);font-size:17px;letter-spacing:1px}
-    .ghost{width:100%;background:rgba(255,255,255,.85);border:2px solid var(--line);color:#5A5190}
-    .intro-actions{display:grid;gap:10px}
-    .preference h2{font-size:22px;line-height:1.45;margin-bottom:8px}
-    .choices{display:flex;flex-direction:column;gap:12px;margin-top:20px}
-    .choice{width:100%;border:2px solid #E2DCF5;border-radius:16px;background:var(--soft);padding:16px 18px;text-align:left;cursor:pointer;display:flex;align-items:center;gap:12px;transition:.16s all}
-    .choice:hover{border-color:var(--accent);background:rgba(123,104,200,.06);transform:translateX(3px)}
-    .choice.selected{border-color:var(--accent);background:rgba(123,104,200,.1);color:var(--primary);box-shadow:0 0 0 3px rgba(123,104,200,.08)}
-    .choice .letter{width:22px;flex:0 0 22px;color:var(--accent);font-size:18px;font-weight:900;text-align:center}
-    .answer .letter{font-size:0}
-    .answer .letter:before{content:"○";font-size:19px}
-    .answer.selected .letter:before{content:"●"}
-    .gender-mark{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;color:#fff;background:linear-gradient(135deg,#9180CC,#6B5DB8);font-weight:900;flex:0 0 auto}
-    .choice strong{font-size:15px;display:block}
-    .choice small{display:block;color:#8D86AE;margin-top:4px;font-size:12px;line-height:1.45}
-    .nav{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:20px}
-    .nav .btn{width:auto}
-    .nav .btn[disabled],.nav-btn[disabled]{opacity:.35;cursor:not-allowed;transform:none}
-    .q-header{border-radius:20px;padding:16px 20px;margin-bottom:20px}
-    .q-meta{display:grid;grid-template-columns:1fr auto auto;gap:12px;align-items:center;margin-bottom:10px}
-    .q-cat{font-size:13px;font-weight:800;color:var(--primary)}
-    .q-count{font-size:13px;color:var(--muted)}
-    .q-pct{font-size:13px;font-weight:800;color:var(--accent)}
-    .progress-track{height:8px;background:var(--line);border-radius:99px;overflow:hidden}
-    .progress-bar{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--primary));border-radius:99px;transition:width .38s ease}
-    .q-body{border-radius:24px;padding:28px 24px;margin-bottom:18px;min-height:560px}
-    .q-text{font-size:21px;font-weight:900;line-height:1.45;margin:10px 0 22px}
-    .q-nav{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:22px}
-    .nav-btn{padding:12px 17px;border-radius:14px;border:2px solid var(--line);background:rgba(255,255,255,.86);cursor:pointer;font-size:14px;color:#746C9A}
-    .auto-hint{font-size:12px;color:#9B94C8;flex:1;text-align:center;line-height:1.4;transition:.2s}
-    .auto-hint.active{color:var(--primary);font-weight:700}
-    .result{padding:0}
-    .top-card{border-radius:28px;padding:30px 24px 26px;text-align:center;margin-bottom:18px}
-    .top-sub{font-size:15px;color:var(--accent);font-weight:700;margin-bottom:12px;letter-spacing:1px}
-    .top-icon-emoji{font-size:44px;margin-bottom:5px}
-    .match-pct{font-size:64px;font-weight:900;background:linear-gradient(135deg,var(--accent),var(--primary));-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1.05}
-    .result-name{font-size:34px;font-weight:900;margin:10px 0 6px}
-    .person-title{font-size:15px;color:#8279AE;margin-bottom:16px;line-height:1.6}
-    .tags{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
-    .tag{background:rgba(107,93,184,.1);color:var(--primary);border:1px solid rgba(107,93,184,.18);border-radius:20px;padding:6px 14px;font-size:14px;font-weight:700}
-    .dominant-chip{display:inline-block;margin:12px 0 0;padding:7px 14px;border-radius:20px;background:#F1EDF9;color:var(--primary);font-size:14px;font-weight:700}
-    .match-reason{background:linear-gradient(135deg,rgba(232,228,242,.8),rgba(237,234,245,.6));border-radius:16px;padding:15px 18px;text-align:left;margin-top:16px;border:1px solid rgba(107,93,184,.1)}
-    .reason-title{font-size:15px;font-weight:800;color:var(--primary);display:block;margin-bottom:8px}
-    .quote{font-size:17px;color:#514A75;line-height:1.85;margin:0}
-    .report-section{border-radius:24px;padding:23px;margin-bottom:18px}
-    .section-title{font-size:19px;font-weight:900;margin-bottom:16px}
-    .bio{font-size:17px;line-height:1.9;color:#514A75}
-    .dimension-grid{display:flex;flex-direction:column;gap:12px}
-    .dim-row{display:grid;grid-template-columns:64px 1fr 34px;align-items:center;gap:10px;font-size:14px;color:#655D8F}
-    .dim-bar{height:8px;background:#F0EDF8;border-radius:99px;overflow:hidden}
-    .dim-bar i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--primary));border-radius:inherit}
-    .three{display:grid;grid-template-columns:1fr;gap:12px}
-    .note{background:#FAF8FF;border:1px solid #E2DCF5;border-radius:17px;padding:18px 17px;line-height:1.8;color:#625B86;font-size:16px}
-    .note b{display:block;color:var(--ink);margin-bottom:7px;font-size:17px}
-    .share-actions{display:grid;gap:10px;margin:22px 0}
-    .toast{position:fixed;left:50%;bottom:28px;transform:translate(-50%,20px);width:max-content;max-width:min(520px,calc(100% - 32px));background:#2D2458;color:#fff;padding:11px 18px;border-radius:18px;text-align:center;line-height:1.6;opacity:0;pointer-events:none;transition:.25s;z-index:30}
-    .toast.show{opacity:1;transform:translate(-50%,0)}
-    .save-modal{position:fixed;z-index:80;inset:0;display:flex;align-items:flex-start;justify-content:center;padding:18px;background:rgba(45,36,88,.52);overflow:auto}
-    .save-panel{width:min(680px,100%);margin:auto;background:#fff;border-radius:24px;padding:16px;box-shadow:0 24px 70px rgba(45,36,88,.3)}
-    .save-panel-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:8px}
-    .save-panel-head h2{margin:0;font-size:20px}
-    .save-close{width:44px;min-height:44px;padding:0;border:0;border-radius:50%;background:#ECE6FA;font-size:24px;cursor:pointer}
-    .save-tip{margin:0 2px 14px;color:#625B86;font-size:14px;line-height:1.7}
-    .save-preview{display:block;width:100%;height:auto;border:1px solid var(--line);border-radius:16px;-webkit-touch-callout:default;-webkit-user-select:auto;user-select:auto}
-    .micro{font-size:13px;color:#8D86AE;text-align:center;line-height:1.65}
-    body.locked{overflow:hidden}
-    .app-locked{display:none}
-    .access-gate{position:fixed;inset:0;z-index:20;display:grid;place-items:center;padding:20px;background:linear-gradient(145deg,#E8E4F2,#EFEAF7)}
-    .access-card{width:min(460px,100%);background:rgba(255,255,255,.9);border-radius:24px;padding:28px 24px;text-align:center;box-shadow:var(--shadow)}
-    .lock-mark{width:72px;height:72px;border-radius:20px;margin:0 auto 18px;display:grid;place-items:center;background:linear-gradient(135deg,var(--accent),var(--primary));color:#fff;font-size:32px;box-shadow:0 8px 28px rgba(107,93,184,.35)}
-    .access-card h1{font-size:25px;margin-bottom:8px}
-    .access-card p{color:var(--muted);font-size:13px;line-height:1.7}
-    .access-input{display:block;width:100%;margin:20px auto 14px;padding:14px;border:2px solid var(--line);border-radius:14px;background:#fff;text-align:center;font-size:28px;font-weight:800;letter-spacing:12px;color:var(--primary);outline:0}
-    .access-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(123,104,200,.15)}
-    .access-error{min-height:22px;margin:10px 0 0!important;color:#EF4444!important;font-size:13px;opacity:0}
-    .access-error.show{opacity:1}
-    @media(min-width:640px){.three{grid-template-columns:repeat(3,1fr)}.share-actions{grid-template-columns:1fr 1fr}.intro-actions{grid-template-columns:1fr 1fr}}
-    @media(max-width:480px){.shell{padding:12px 12px 40px}.card,.q-body{padding:22px 17px}.q-body{min-height:610px}.q-header{padding:15px 16px}.q-meta{gap:7px}.q-text{font-size:19px}.choice{padding:15px 13px}.nav-btn{padding:11px 12px}.auto-hint{font-size:11px}.report-section{padding:23px 18px}.result-name{font-size:32px}.person-title{font-size:15px}.quote,.bio{font-size:17px}.dim-row{grid-template-columns:60px 1fr 32px;font-size:14px}}
-    @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+:root{
+  --ink:#2B2722;
+  --ink-soft:#4A443B;
+  --muted:#8B8174;
+  --primary:#33405E;
+  --primary-deep:#26314A;
+  --accent:#A67C3D;
+  --accent-bright:#C9A45C;
+  --bg:#F4EFE4;
+  --line:#DED4BF;
+  --paper:#FFFCF5;
+  --soft:#F7F1E5;
+  --danger:#B0483F;
+  --serif:"STZhongsong","Noto Serif SC","Source Han Serif SC","Songti SC","SimSun",serif;
+  --shadow:0 10px 30px rgba(74,62,42,.08);
+  --shadow-lg:0 20px 50px rgba(74,62,42,.13);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;min-height:100vh;color:var(--ink);
+  font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  background:
+    radial-gradient(1100px 520px at 12% -8%,rgba(201,164,92,.13),transparent 60%),
+    radial-gradient(900px 480px at 108% 8%,rgba(51,64,94,.09),transparent 55%),
+    linear-gradient(160deg,#F6F1E6 0%,#F0E9DA 48%,#EAE2D0 100%);
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+button,input{font:inherit}
+button{color:inherit}
+h1,h2,p{margin-top:0}
+::selection{background:rgba(166,124,61,.22)}
+.shell{width:100%;max-width:680px;margin:auto;padding:20px 16px 56px}
+.hidden{display:none!important}
+.card,.q-header,.q-body,.top-card,.report-section{background:var(--paper);box-shadow:var(--shadow);border:1px solid var(--line)}
+.card{border-radius:22px;padding:26px 24px;margin-bottom:20px}
+.icon-box{width:76px;height:76px;border-radius:20px;background:linear-gradient(135deg,#FBF7EE,#F1E9D8);border:1px solid #E4D8BE;display:flex;align-items:center;justify-content:center;font-size:36px;margin:16px auto 18px;box-shadow:0 10px 28px rgba(74,62,42,.1)}
+.hero-title{font-family:var(--serif);font-size:28px;font-weight:700;text-align:center;line-height:1.35;margin-bottom:8px;color:var(--ink)}
+.hero-title em{font-style:normal;color:var(--accent)}
+.hero-sub{font-size:12px;color:var(--accent);letter-spacing:4px;font-weight:600;text-align:center;margin-bottom:22px}
+.lead{font-size:14px;color:#5A5348;line-height:1.85;text-align:center;margin-bottom:20px}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:0 0 18px}
+.stat{background:rgba(255,252,245,.8);border:1px solid var(--line);border-radius:16px;padding:14px 10px;text-align:center;box-shadow:0 2px 10px rgba(74,62,42,.04);color:#7A7263;font-size:12px}
+.stat b{display:block;font-size:19px;color:var(--primary-deep);margin-bottom:3px}
+.info-box{background:rgba(247,241,229,.72);border-left:3px solid var(--accent);border-radius:12px;padding:13px 16px;color:#5A5348;font-size:13px;line-height:1.75;margin-bottom:18px}
+.eyebrow{font-size:13px;color:var(--accent);font-weight:700;letter-spacing:.08em;margin-bottom:8px}
+.hint{font-size:13px;color:var(--muted);line-height:1.7}
+.btn{border:none;border-radius:14px;padding:15px 20px;cursor:pointer;font-weight:700;letter-spacing:.03em;transition:transform .16s,box-shadow .16s,background .16s,border-color .16s,color .16s}
+.btn:hover{transform:translateY(-2px)}
+.btn:focus-visible,.choice:focus-visible,.nav-btn:focus-visible{outline:3px solid rgba(166,124,61,.25);outline-offset:3px}
+.primary{width:100%;background:linear-gradient(135deg,#D2AD67,#B0883C);color:#2B2722;box-shadow:0 10px 26px rgba(176,136,60,.3);font-size:17px;letter-spacing:.05em}
+.primary:hover{box-shadow:0 14px 32px rgba(176,136,60,.36)}
+.ghost{width:100%;background:rgba(255,252,245,.72);border:1px solid var(--line);color:var(--primary-deep)}
+.ghost:hover{border-color:var(--accent);color:var(--accent)}
+.intro-actions{display:grid;gap:10px}
+.preference h2{font-family:var(--serif);font-size:22px;line-height:1.45;margin-bottom:8px;color:var(--ink)}
+.choices{display:flex;flex-direction:column;gap:12px;margin-top:20px}
+.choice{width:100%;border:1px solid var(--line);border-radius:15px;background:var(--paper);padding:16px 18px;text-align:left;cursor:pointer;display:flex;align-items:center;gap:14px;transition:.16s;box-shadow:0 2px 8px rgba(74,62,42,.03)}
+.choice:hover{border-color:var(--accent);background:#FBF7EE;transform:translateX(3px)}
+.choice.selected{border-color:var(--accent);background:linear-gradient(135deg,#FBF3E2,#F5EAD3);color:var(--ink);box-shadow:0 0 0 3px rgba(166,124,61,.12)}
+.choice .letter{width:24px;flex:0 0 24px;color:var(--accent);font-size:18px;font-weight:800;text-align:center}
+.choice strong{font-size:16px;display:block;line-height:1.45;color:var(--ink)}
+.answer .letter{font-size:0}
+.answer .letter:before{content:"○";font-size:19px;color:#B7AC99}
+.answer.selected .letter:before{content:"●";color:var(--accent)}
+.gender-mark{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;color:#FFFCF5;background:linear-gradient(135deg,#3A4A6B,#26314A);font-weight:800;flex:0 0 auto}
+.nav{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:20px}
+.nav .btn{width:auto}
+.nav .btn[disabled],.nav-btn[disabled]{opacity:.35;cursor:not-allowed;transform:none}
+.q-header{border-radius:18px;padding:16px 20px;margin-bottom:20px}
+.q-meta{display:grid;grid-template-columns:1fr auto auto;gap:12px;align-items:center;margin-bottom:10px}
+.q-cat{font-size:13px;font-weight:700;color:var(--accent)}
+.q-count{font-size:13px;color:var(--muted)}
+.q-pct{font-size:13px;font-weight:700;color:var(--primary-deep)}
+.progress-track{height:8px;background:#EFE8D8;border-radius:99px;overflow:hidden}
+.progress-bar{display:block;height:100%;width:0;background:linear-gradient(90deg,#C9A45C,#A67C3D);border-radius:99px;transition:width .38s ease}
+.q-body{border-radius:22px;padding:28px 24px;margin-bottom:18px;min-height:560px}
+.q-text{font-size:21px;font-weight:700;line-height:1.5;margin:10px 0 22px;color:var(--ink)}
+.q-nav{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:22px}
+.nav-btn{padding:12px 17px;border-radius:13px;border:1px solid var(--line);background:rgba(255,252,245,.8);cursor:pointer;font-size:14px;color:#6B6355}
+.auto-hint{font-size:12px;color:#A79B87;flex:1;text-align:center;line-height:1.4;transition:.2s}
+.auto-hint.active{color:var(--accent);font-weight:700}
+.result{padding:0}
+.top-card{border-radius:26px;padding:32px 24px 26px;text-align:center;margin-bottom:18px;position:relative;overflow:hidden}
+.top-card::before{content:"";position:absolute;top:0;left:0;right:0;height:5px;background:linear-gradient(90deg,#C9A45C,#A67C3D,#C9A45C)}
+.top-sub{font-size:13px;color:var(--accent);font-weight:700;margin-bottom:14px;letter-spacing:2px}
+.top-icon-emoji{font-size:46px;margin-bottom:6px}
+.match-pct{font-size:66px;font-weight:800;background:linear-gradient(135deg,#C9A45C,#A67C3D);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;line-height:1.05}
+.result-name{font-family:var(--serif);font-size:36px;font-weight:700;margin:10px 0 6px;color:var(--ink)}
+.person-title{font-size:15px;color:var(--muted);margin-bottom:16px;line-height:1.6}
+.tags{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.tag{background:#F7F1E5;color:var(--accent);border:1px solid #DED4BF;border-radius:20px;padding:6px 14px;font-size:14px;font-weight:600}
+.dominant-chip{display:inline-block;margin:14px 0 0;padding:8px 15px;border-radius:20px;background:#F7F1E5;color:var(--accent);font-size:14px;font-weight:700;border:1px solid #DED4BF}
+.match-reason{background:linear-gradient(135deg,#F7F1E5,#F0E9DA);border-radius:16px;padding:16px 18px;text-align:left;margin-top:18px;border:1px solid #DED4BF}
+.reason-title{font-size:14px;font-weight:800;color:var(--accent);display:block;margin-bottom:8px}
+.quote{font-size:17px;color:var(--ink-soft);line-height:1.85;margin:0}
+.report-section{border-radius:22px;padding:23px;margin-bottom:18px}
+.section-title{font-family:var(--serif);font-size:18px;font-weight:700;margin-bottom:16px;color:var(--ink);display:flex;align-items:center;gap:10px}
+.section-title::before{content:"";width:4px;height:20px;border-radius:2px;background:linear-gradient(#C9A45C,#A67C3D);flex:0 0 auto}
+.bio{font-size:16px;line-height:1.9;color:var(--ink-soft)}
+.dimension-grid{display:flex;flex-direction:column;gap:12px}
+.dim-row{display:grid;grid-template-columns:64px 1fr 34px;align-items:center;gap:10px;font-size:14px;color:#6B6355}
+.dim-bar{height:8px;background:#EFE8D8;border-radius:99px;overflow:hidden}
+.dim-bar i{display:block;height:100%;background:linear-gradient(90deg,#C9A45C,#A67C3D);border-radius:inherit}
+.three{display:grid;grid-template-columns:1fr;gap:12px}
+.note{background:#FBF7EE;border:1px solid #DED4BF;border-radius:17px;padding:18px 17px;line-height:1.8;color:#5A5348;font-size:15px}
+.note b{display:block;color:var(--ink);margin-bottom:7px;font-size:16px}
+.share-actions{display:grid;gap:10px;margin:22px 0}
+.toast{position:fixed;left:50%;bottom:28px;transform:translate(-50%,20px);width:max-content;max-width:min(520px,calc(100% - 32px));background:#2B2722;color:#F7F1E5;padding:11px 18px;border-radius:14px;text-align:center;line-height:1.6;opacity:0;pointer-events:none;transition:.25s;z-index:30;box-shadow:0 12px 30px rgba(43,39,34,.25)}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.save-modal{position:fixed;z-index:80;inset:0;display:flex;align-items:flex-start;justify-content:center;padding:18px;background:rgba(43,39,34,.48);overflow:auto}
+.save-panel{width:min(680px,100%);margin:auto;background:var(--paper);border-radius:22px;padding:16px;box-shadow:var(--shadow-lg)}
+.save-panel-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:8px}
+.save-panel-head h2{margin:0;font-size:20px;font-family:var(--serif);color:var(--ink)}
+.save-close{width:44px;min-height:44px;padding:0;border:0;border-radius:50%;background:#F1E9D8;font-size:24px;cursor:pointer;color:var(--ink)}
+.save-tip{margin:0 2px 14px;color:#5A5348;font-size:14px;line-height:1.7}
+.save-preview{display:block;width:100%;height:auto;border:1px solid var(--line);border-radius:14px;-webkit-touch-callout:default;-webkit-user-select:auto;user-select:auto}
+.micro{font-size:12px;color:#9A917F;text-align:center;line-height:1.65}
+body.locked{overflow:hidden}
+.app-locked{display:none}
+.access-gate{position:fixed;inset:0;z-index:20;display:grid;place-items:center;padding:20px;background:linear-gradient(160deg,#F6F1E6,#F0E9DA 55%,#EAE2D0)}
+.access-card{width:min(460px,100%);background:var(--paper);border-radius:22px;padding:28px 24px;text-align:center;box-shadow:var(--shadow-lg);border:1px solid var(--line)}
+.lock-mark{width:72px;height:72px;border-radius:20px;margin:0 auto 18px;display:grid;place-items:center;background:linear-gradient(135deg,#FBF7EE,#F1E9D8);border:1px solid #E4D8BE;color:var(--accent);font-size:32px;box-shadow:0 10px 28px rgba(74,62,42,.12)}
+.access-card h1{font-family:var(--serif);font-size:24px;margin-bottom:8px;color:var(--ink)}
+.access-card p{color:var(--muted);font-size:13px;line-height:1.7}
+.access-input{display:block;width:100%;margin:20px auto 14px;padding:14px;border:1px solid var(--line);border-radius:13px;background:#FFF;text-align:center;font-size:28px;font-weight:800;letter-spacing:12px;color:var(--ink);outline:0}
+.access-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(166,124,61,.15)}
+.access-error{min-height:22px;margin:10px 0 0!important;color:var(--danger)!important;font-size:13px;opacity:0}
+.access-error.show{opacity:1}
+@media(min-width:640px){.three{grid-template-columns:repeat(3,1fr)}.share-actions{grid-template-columns:1fr 1fr}.intro-actions{grid-template-columns:1fr 1fr}}
+@media(max-width:480px){.shell{padding:12px 12px 40px}.card,.q-body{padding:22px 17px}.q-body{min-height:610px}.q-header{padding:15px 16px}.q-meta{gap:7px}.q-text{font-size:19px}.choice{padding:15px 13px}.nav-btn{padding:11px 12px}.auto-hint{font-size:11px}.report-section{padding:23px 18px}.result-name{font-size:32px}.person-title{font-size:15px}.quote,.bio{font-size:17px}.dim-row{grid-template-columns:60px 1fr 32px;font-size:14px}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+
   </style>
 </head>
 <body class="locked">
@@ -132,7 +162,7 @@
       <div class="icon-box">🏛️</div>
       <h1 class="hero-title">历史人物测试<em>新版</em></h1>
       <div class="hero-sub">FIGURE ATLAS · ANCIENT ARCHIVE</div>
-      <p class="lead">通过一组情境选择，读取你的决断、洞察、表达与担当。系统将从清朝以前的中国历史人物中，为你找出最相似的那一位。</p>
+      <p class="lead">通过一组情境选择，读取你的决断、洞察、表达与担当。系统将从先秦至清代的历史人物与经典形象中，为你找出最相似的那一位。</p>
       <div class="stats">
         <span class="stat"><b>古代群像</b>历代风云人物</span>
         <span class="stat"><b>男女皆有</b>多元角色</span>
@@ -266,6 +296,7 @@
       P("张居正","male","明","改革家","strategist","宏大的愿望，必须变成可执行的次序。"),P("陆羽","male","唐","茶学家","scholar","一件寻常之物，也值得穷尽其理。"),
       P("张仲景","male","东汉","医学家","scholar","医者求真，更要体恤人的痛苦。"),P("李时珍","male","明","医药学家","scholar","一味一药，都要经得住亲自查证。"),
       P("沈括","male","北宋","博物学家","scholar","万物皆可观察，经验皆可验证。"),P("沈万三","male","元末明初","商人","merchant","会经营财富，更要看懂流动与时势。"),
+      P("巴寡妇清","female","秦","女商人·经营者","merchant","信用与远见，比一时的得失更长久。"),
       P("韩信","male","西汉","军事家","strategist","真正的战局，要在动兵之前先看清地势与人心。"),P("曹操","male","东汉末","政治家与军事家","ruler","乱局之中，既要看清时势，也要敢于决断。"),
       P("赵云","male","三国","蜀汉名将","guardian","越是危急的时候，越要把责任守到最后。"),P("项羽","male","秦汉之际","西楚霸王","pioneer","面对强敌，我更愿意先打开局面。"),
       P("曾国藩","male","清","政治家与统帅","strategist","难事要从稳处着手，大事要靠长期积累。"),P("成吉思汗","male","蒙古帝国","建立者","ruler","辽阔的版图，始于统一的意志与秩序。"),
@@ -298,149 +329,17 @@
       P("明成祖徐皇后","female","明","学者型皇后","scholar","读书不只修养自己，也能帮助更多人立身。"),P("明太祖马皇后","female","明","政治协调者","guardian","越在权力中心，越要记得体恤与节制。"),
       P("貂蝉","female","东汉末文学形象","连环计人物","diplomat","柔弱的外表下，也可以藏着改变局势的勇气。"),P("孙尚香","female","三国","东吴宗室女子","free","身处联姻与时局之中，仍要守住自己的判断。"),
       P("杨玉环","female","唐","音乐与舞蹈见长的贵妃","artist","对美与情感的感知，也能成为穿越时间的表达。"),P("年贵妃","female","清","雍正朝贵妃","diplomat","越在复杂的关系里，越需要分寸与清醒。"),
-      P("钮祜禄·甄嬛","female","清宫题材文学影视","文学影视角色","strategist","身处复杂局势，清醒、耐心和分寸同样重要。"),P("年世兰（华妃）","female","清宫题材文学影视","文学影视角色","ruler","锋芒可以让人看见你，也要防止情绪替你作出决定。"),
       P("孝庄太后","female","清初","皇太后","diplomat","稳住人心与关系，才能让大局真正安定。")
     ];
 
-    const BASE_Q=[
-      ["⚖️ 决策方式","你做重要决定时，最自然的第一步是？",[["先定方向，再处理细节","决断"],["先看看会影响到哪些人","共情"],["先想有没有全新的解法","开创"],["先把信息和因果弄清楚","洞察"]]],
-      ["⚖️ 决策方式","面对一个信息不完整的机会，你通常会？",[["继续观察，补齐关键证据","洞察"],["设好底线后尽快决定","决断"],["询问相关人的真实感受","共情"],["用小成本先试一次","开创"]]],
-      ["⚖️ 决策方式","团队争论很久仍没有结论，你更可能？",[["翻译分歧，寻找共同点","共情"],["提出大家没想过的第三条路","开创"],["判断真正卡住局面的因素","洞察"],["明确拍板并承担结果","决断"]]],
-      ["⚖️ 决策方式","计划突然被打乱时，你的第一反应是？",[["把意外当成新机会","开创"],["观察变化后重新判断","洞察"],["迅速重排优先级","决断"],["先安顿好身边人的情绪","共情"]]],
-      ["🤝 人际协作","一段重要合作出现裂痕，你首先会？",[["把问题清楚地说出来","表达"],["算清双方还能交换什么价值","经营"],["守住自己的原则和边界","独立"],["主动承担自己该负责的部分","担当"]]],
-      ["🤝 人际协作","团队士气低落时，你更可能？",[["接下最困难的任务稳住大家","担当"],["讲清目标，让大家重新相信","表达"],["调整资源，让努力尽快有回报","经营"],["保持自己的节奏，不被情绪带走","独立"]]],
-      ["🤝 人际协作","别人强烈反对你的选择时，你会？",[["重新评估现实成本与收益","经营"],["按自己的价值判断继续走","独立"],["承担后果，不让别人替你买单","担当"],["把理由解释到足够清楚","表达"]]],
-      ["🤝 人际协作","你更希望别人怎样评价你？",[["活得清醒，始终像自己","独立"],["关键时刻真正靠得住","担当"],["能把复杂事情讲明白","表达"],["做事有章法，懂得长期经营","经营"]]],
-      ["🚀 行动与变化","遇到没有先例的新项目，你更倾向？",[["先做一个最小版本试水","开创"],["研究相似案例和失败原因","洞察"],["定目标和截止时间直接推进","决断"],["先听团队最真实的顾虑","共情"]]],
-      ["🚀 行动与变化","发现一条大家习惯了却不合理的规则，你会？",[["确认它为何形成以及谁会受影响","洞察"],["站出来推动它尽快改变","决断"],["先联合理解这件事的人","共情"],["设计一套完全不同的新规则","开创"]]],
-      ["🚀 行动与变化","一件事做了很久仍没有起色，你会？",[["设定最后期限，决定继续或停止","决断"],["确认伙伴是否还愿意同行","共情"],["换一种完全不同的方法","开创"],["重新检查最初的假设","洞察"]]],
-      ["🚀 行动与变化","遇到实力很强的对手，你更习惯？",[["寻找新的赛道和规则","开创"],["分析对方真正的优势与软肋","洞察"],["抢占节奏，正面应战","决断"],["寻找双方都在意的底线","共情"]]],
-      ["🧠 思考与表达","面对复杂信息，你最信任什么？",[["能被实际结果持续验证的方法","经营"],["能被清楚说出的逻辑","表达"],["自己独立思考后的判断","独立"],["经得住责任考验的选择","担当"]]],
-      ["🧠 思考与表达","别人误解你时，你通常会？",[["不急着证明，继续做自己的事","独立"],["确保误解不会伤及他人","担当"],["当场解释到彼此听懂","表达"],["判断解释是否值得投入","经营"]]],
-      ["🧠 思考与表达","准备一份重要提案时，你最看重？",[["它能否真正落地并持续运转","经营"],["它是否保留我的独特立场","独立"],["我是否愿意为结果负责","担当"],["它能否让陌生人听懂并相信","表达"]]],
-      ["🧠 思考与表达","如果只能保留一种能力，你会选？",[["准确表达思想和感受","表达"],["把资源组织成长期价值","经营"],["不被外界轻易改变方向","独立"],["在关键时刻站出来承担","担当"]]],
-      ["🏛️ 资源与责任","突然得到一笔可自由使用的资源，你会？",[["确定最重要的目标，集中投入","决断"],["先解决身边人最紧迫的需要","共情"],["支持一个高潜力的新尝试","开创"],["先研究怎样配置最合理","洞察"]]],
-      ["🏛️ 资源与责任","资源只够保住一件事，你优先保住？",[["最有价值的信息与判断","洞察"],["最关键、最能影响全局的结果","决断"],["最需要被照顾的人","共情"],["最可能打开未来的尝试","开创"]]],
-      ["🏛️ 资源与责任","你被临时推到台前主持大局，会先做什么？",[["听一圈意见，确认真实诉求","共情"],["用新形式快速打开局面","开创"],["梳理关键矛盾和先后手","洞察"],["明确主线并马上分工","决断"]]],
-      ["🏛️ 资源与责任","高回报与高风险同时出现时，你更倾向？",[["愿意为新的可能性冒险","开创"],["继续收集证据，降低未知","洞察"],["设置止损后果断下注","决断"],["评估它会给相关人带来什么","共情"]]],
-      ["🌙 价值与人生","什么最能让你长期坚持一件事？",[["让更多人理解它的意义","表达"],["它能不断产生实际价值","经营"],["它符合我真正相信的东西","独立"],["有人和结果需要我负责","担当"]]],
-      ["🌙 价值与人生","你理想中的成就更接近？",[["完成一件对很多人重要的事","担当"],["让一种思想被更多人看见","表达"],["建立一个能持续运行的系统","经营"],["拥有选择自己生活的自由","独立"]]],
-      ["🌙 价值与人生","你最不能接受哪种状态？",[["长期投入却没有真实价值","经营"],["为了合群而背离自己","独立"],["关键时刻没有人负责","担当"],["有想法却无法表达出来","表达"]]],
-      ["🌙 价值与人生","千年之后，你希望人们记得你什么？",[["我始终忠于自己的方向","独立"],["我守住了重要的人和事","担当"],["我留下了能影响别人的表达","表达"],["我建立了可以继续生长的价值","经营"]]]
-    ];
-
-    const DECISION_SCENES=[
-      "战国时，邻国逼你交出城里的粮食","秦汉边关告急，军粮只够用一个月","汉代使团来到一个语言不通的西域小国","三国联军为走哪条路争论不休","南北朝战乱中，许多百姓要搬进新城",
-      "隋代汛期将到，但修河工程还没完成","唐代驿站收到两份内容相反的军报","唐代商队准备经过一片局势不明的地区","宋代州府的钱只够先修河堤或先救灾民","宋代新法推行后，地方大户强烈反对",
-      "元代道路被毁，使团仍要按时到达","明代海边既有敌情，军粮又不够","明代船队在陌生海域迷失方向","明代灾荒刚结束，地方又要恢复税收","春秋会盟前，盟友突然提出新的条件",
-      "战国军营发现敌军可能在假装撤退","秦代新法到了地方后一直推不动","汉代朝廷为盐铁是否由官府经营争论不休","东汉发生水灾，粮食不够同时救三个县","三国一座城被围，援军何时到还不知道",
-      "晋代许多北方百姓逃到南方，需要重新安置","北魏改革影响旧贵族利益，引起强烈反对","隋唐交替时，旧规矩失效，新规矩还没建立","唐代科举改革后，寒门和世家争论激烈","安史之乱后，一个地方要重建户籍和粮仓",
-      "五代政权频繁更换，城里百姓人心不安","北宋边境有人主张议和，也有人主张开战","南宋水军遇到强敌，但船只数量不足","宋代书院因观点不同快要分成两派","元代驿站遇到暴雪，和外界失去联系",
-      "明代工坊接到一个从没做过的大工程","明代朝廷要决定是否开放新的海上贸易港口","明代边城出现疫病，但药材很少","明代黄河改道，多个州县都可能受灾","古代粮仓账目出现一笔说不清的亏空",
-      "古代同时要修城墙和水渠，但人手只够做一件事","古代驿使送来一道真假难辨的紧急命令","古代军队进入陌生山区，两名向导给出相反路线","古代县衙同时收到几起互相矛盾的诉状","古代两个村子长期争抢同一处水源",
-      "古代港口突然封航，大量货物积压","古代医馆遇到一种没见过的传染病","古代天文官发现历法和实际天象对不上","古代工匠发现老办法做不出一种新器物","古代学者找到与经典旧注相反的新证据",
-      "古代使臣要在两个互不信任的国家之间送信","古代将领发现敌军已经看穿原来的战术","古代地方官要在严格执法和安抚百姓之间选择","古代一个家族要决定是否离开生活多年的故乡","古代新君刚即位，朝中几派人都在试探他"
-    ];
-    const RELATION_SCENES=[
-      "春秋会盟上，你要让几位诸侯接受一个共同方案","战国时，你要让交战双方暂时坐下来谈判","秦汉推行新法时，百姓担心生活会受影响","汉代朝堂上，大家误解了你的真实想法","汉代使团内部为走哪条路发生争执",
-      "东汉时，地方豪强经常欺负百姓，官府一直不敢管","三国主将把一座危险的城交给你守","三国几位谋士为谁的功劳更大争论不休","晋代南迁家族要重新安排土地和人手","南北朝时，寺院和村民为一处水源发生矛盾",
-      "隋代劳役太重，百姓开始不相信官府","唐代朝堂上，你要向不同意见的人解释改革","唐代诗会上，别人把你的作品说成是他写的","唐代西域使团里，大家语言和习俗都不同","唐代军营连续失利，士兵都不愿说话",
-      "宋代书院里，你要反驳一个很流行的观点","宋代商队合作多年后，分到的利益越来越不公平","宋代一次救灾出了差错，你要向百姓说明原因","宋代两个家族积怨多年，请你出面调解","元代商队要出发，却没人愿意负责押运",
-      "元代驿站收到一封尖锐但有道理的批评信","明代工坊用了新方法，老工匠都不愿接受","明代远航船队因习俗不同和当地人产生误会","明代将领收到一道明显不合理的命令","明代学社因为理念不同快要解散",
-      "明代商号失信一次后，要重新赢回外地客户","明代灾民前来求助，但你的粮仓也快空了","古代朝堂上，大多数人都要你跟着他们表态","古代军功册把几个人的功劳记错了","古代大型水利工程要交给一名新人负责",
-      "古代师徒因为如何传授技艺越来越疏远","古代药铺发现一批药材质量可能有问题","古代一名女子想自己选择生活，却被家族反对","古代局势变了，原来的誓约可能伤害无辜的人","古代边城里，不同族群需要一起守城",
-      "古代粮食短缺，邻里开始互相猜疑","古代书院来了一名背景陌生的新学生","古代史官发现史书中有一段重要记录写错了","古代使者任务失败，需要回去向君主说明","古代几方合力修好城墙，却还在争功劳",
-      "古代学者坚持的观点多年没人理解","古代军营天天重复训练，士兵越来越不耐烦","古代女将要带领一支缺乏信心的队伍","古代商人想把一家小店做成能传几代的老字号","古代改革者的主张暂时得不到支持",
-      "古代众人推举你主持一件公共事务","古代宗族内部的争吵越来越严重","古代国家需要你承担责任，但家人也需要你照顾","古代文人想写一部真正有用、能流传的书","古代隐士想过自由生活，但乡里遇到困难来求助"
-    ];
-    const DECISION_ANGLES=[
-      "你第一步会怎么做？","你最可能先采取哪种行动？","哪种处理方式最像你？","若由你负责，你会先从哪里入手？","时间紧迫时，你会优先做什么？",
-      "你会把第一步放在哪件事上？","以下哪种做法更符合你？","你准备怎样打开局面？","你会先推进哪项行动？","你认为此时最合适的起点是什么？"
-    ];
-    const RELATION_ANGLES=[
-      "你第一步会怎么做？","你最可能先采取哪种行动？","哪种处理方式最像你？","若由你负责，你会先从哪里入手？","时间紧迫时，你会优先做什么？",
-      "你会把第一步放在哪件事上？","以下哪种做法更符合你？","你准备怎样打开局面？","你会先推进哪项行动？","你认为此时最合适的起点是什么？"
-    ];
-    const DECISION_CATEGORIES=["⚖️ 决策方式","🚀 行动与变化","🏛️ 资源与责任","🔭 判断与洞察","🌊 压力与转折"];
-    const RELATION_CATEGORIES=["🤝 人际协作","🧠 思考与表达","🌙 价值与人生","🧭 边界与担当","🪴 长期经营"];
-    const DECISION_OPTION_PACKS={
-      scarcity:{category:"🏛️ 资源与责任",options:[["按生存紧迫度排出取舍顺序","决断"],["确认受影响最重的人需要什么","共情"],["寻找替代资源或分阶段解决的新办法","开创"],["核对库存、时限和实际风险","洞察"]]},
-      diplomacy:{category:"⚖️ 决策方式",options:[["划清不能退让的底线并及时定案","决断"],["弄清各方真正担心什么","共情"],["提出兼顾各方关键利益的新方案","开创"],["判断对方条件背后的真实意图","洞察"]]},
-      navigation:{category:"🌊 压力与转折",options:[["设定截止时间并选定一条可执行路线","决断"],["了解同行者最担心的风险","共情"],["寻找备用路线或新的联络办法","开创"],["核对地形、天气和消息来源","洞察"]]},
-      governance:{category:"⚖️ 决策方式",options:[["明确最急的公共目标并排好先后","决断"],["听取受影响百姓的真实处境","共情"],["用小范围试行寻找新的平衡办法","开创"],["查清矛盾根源与长期影响","洞察"]]},
-      disaster:{category:"🌊 压力与转折",options:[["马上确定救援优先级并分派任务","决断"],["先照顾伤病者和最脆弱的人","共情"],["寻找新的调度、隔离或替代方案","开创"],["确认灾情范围和最危险的环节","洞察"]]},
-      evidence:{category:"🔭 判断与洞察",options:[["设定核验时限，到点后作出决定","决断"],["听取一线当事人的完整说法","共情"],["设计一个能快速验证真假的办法","开创"],["比对来源、时间和相互矛盾之处","洞察"]]},
-      reform:{category:"🚀 行动与变化",options:[["明确改革目标并处理最关键的阻力","决断"],["了解哪些人会因此受损或不安","共情"],["先试行一套可调整的新办法","开创"],["查清旧制度为何形成以及问题所在","洞察"]]},
-      military:{category:"🌊 压力与转折",options:[["抓住战机，迅速确定主攻或防守方向","决断"],["评估士兵与百姓能承受的代价","共情"],["改变原有部署，制造新的突破口","开创"],["判断敌情真假与真正的薄弱处","洞察"]]},
-      innovation:{category:"🚀 行动与变化",options:[["定下可验收的目标和期限","决断"],["了解使用者和工匠的实际困难","共情"],["先做一个小样验证新思路","开创"],["比较旧方法失败的原因和现有条件","洞察"]]},
-      family:{category:"🏛️ 资源与责任",options:[["明确一家人最需要先解决的问题","决断"],["让每位家人把顾虑和期望说出来","共情"],["寻找兼顾故土与新生活的过渡办法","开创"],["判断留下与迁走的长期风险","洞察"]]}
-    };
-    const RELATION_OPTION_PACKS={
-      negotiation:{category:"🤝 人际协作",options:[["把分歧和共同目标当面说清","表达"],["建立各方都能长期遵守的合作办法","经营"],["守住原则，不为暂时和气含糊表态","独立"],["主动承担最难协调的一部分","担当"]]},
-      misunderstanding:{category:"🧠 思考与表达",options:[["用事实和证据把来龙去脉讲清","表达"],["补上能避免以后再误解的沟通规则","经营"],["坚持真实立场，不因质疑随意改口","独立"],["承认自己该负的责任并立即补救","担当"]]},
-      credit:{category:"🧠 思考与表达",options:[["公开说明事实、证据和每个人的贡献","表达"],["建立清楚的署名、记录与分配规则","经营"],["守住应有的署名或判断，不盲目退让","独立"],["保护被亏待的人并负责纠正结果","担当"]]},
-      morale:{category:"🤝 人际协作",options:[["让大家说出真正的担心","表达"],["把任务拆清并建立能持续推进的节奏","经营"],["保持判断，不被集体低落带偏","独立"],["带头接下最困难、最关键的一项","担当"]]},
-      authority:{category:"🧭 边界与担当",options:[["把外部要求、现实问题和自己的理由说清","表达"],["提出既能执行又能减少损害的替代安排","经营"],["守住不能违背的原则，不盲从压力","独立"],["愿意为坚持或调整选择的后果负责","担当"]]},
-      cooperation:{category:"🪴 长期经营",options:[["把目标、分歧和各自需求说清","表达"],["重新安排分工、资源和长期合作规则","经营"],["保留自己的专业判断，不盲目附和","独立"],["主动接下最容易被遗漏的责任","担当"]]},
-      trust:{category:"🪴 长期经营",options:[["公开真实情况，不回避过去的问题","表达"],["用可兑现的步骤慢慢重建信任","经营"],["不靠讨好换信任，守住诚实底线","独立"],["补偿受影响者并承担失误后果","担当"]]},
-      values:{category:"🌙 价值与人生",options:[["把自己的观点讲成别人能理解的理由","表达"],["寻找让理念能长期留下并产生作用的方式","经营"],["即使处于少数，也坚持经过思考的判断","独立"],["用实际行动证明观点并承担结果","担当"]]},
-      responsibility:{category:"🧭 边界与担当",options:[["把困难和可行方案向相关人说清","表达"],["安排好人手、步骤和后续保障","经营"],["确认自己愿意承担到什么边界","独立"],["接下最关键、最不能无人负责的部分","担当"]]},
-      scarcity:{category:"🧭 边界与担当",options:[["如实说明资源不足和分配依据","表达"],["重新盘点资源并建立可持续的分配办法","经营"],["守住公平底线，不因关系改变规则","独立"],["保障最需要救助的人","担当"]]}
-    };
-    const DECISION_PACK_BY_SCENE=["scarcity","scarcity","diplomacy","navigation","governance","disaster","evidence","navigation","scarcity","reform","navigation","military","navigation","governance","diplomacy","military","reform","reform","disaster","military","governance","reform","governance","reform","governance","governance","diplomacy","military","governance","navigation","innovation","reform","disaster","disaster","evidence","scarcity","evidence","navigation","evidence","diplomacy","governance","disaster","evidence","innovation","evidence","diplomacy","military","governance","family","governance"];
-    const RELATION_PACK_BY_SCENE=["negotiation","negotiation","authority","misunderstanding","negotiation","authority","responsibility","credit","cooperation","negotiation","trust","misunderstanding","credit","cooperation","morale","values","cooperation","misunderstanding","negotiation","responsibility","misunderstanding","cooperation","negotiation","authority","values","trust","scarcity","authority","credit","responsibility","cooperation","responsibility","authority","authority","negotiation","trust","morale","credit","misunderstanding","credit","values","morale","morale","cooperation","values","responsibility","negotiation","responsibility","values","responsibility"];
-    const OPTION_SUFFIXES=["","，再处理其他问题","，以此打开局面","，然后观察变化","，再决定下一步","，并根据结果调整","，避免局面继续失控","，让后续行动有依据","，同时保留调整空间","，再推动其他安排"];
-    function contextualOptions(pack,angleIndex){return pack.options.map((option,index)=>[option[0]+OPTION_SUFFIXES[(angleIndex+index)%OPTION_SUFFIXES.length],option[1]])}
-    function rotateQuestionOptions(options,seed){
-      const shift=seed%4,rotated=options.slice(shift).concat(options.slice(0,shift));
-      if(Math.floor(seed/4)%2)rotated.reverse();
-      return rotated.map(option=>option.slice());
-    }
-    function questionTextKey(text){return text.normalize("NFKC").replace(/[\s，。！？、；：‘’“”'"（）()]/g,"").toLowerCase()}
-    function buildHistoricalQuestionBank(base){
-      const bank=[],seen=new Set();
-      const add=question=>{const key=questionTextKey(question[1]);if(bank.length<1000&&!seen.has(key)){seen.add(key);bank.push(question)}};
-      for(let i=0;i<500&&bank.length<1000;i++){
-        const sceneIndex=i%50,angleIndex=Math.floor(i/50);
-        const decisionPackKey=DECISION_PACK_BY_SCENE[sceneIndex],decisionPack=DECISION_OPTION_PACKS[decisionPackKey];
-        const relationPackKey=RELATION_PACK_BY_SCENE[sceneIndex],relationPack=RELATION_OPTION_PACKS[relationPackKey];
-        add([decisionPack.category,DECISION_SCENES[sceneIndex]+"。"+DECISION_ANGLES[angleIndex],rotateQuestionOptions(contextualOptions(decisionPack,angleIndex),i),`D-${sceneIndex}`,`D-${angleIndex}`,decisionPackKey]);
-        add([relationPack.category,RELATION_SCENES[sceneIndex]+"。"+RELATION_ANGLES[angleIndex],rotateQuestionOptions(contextualOptions(relationPack,angleIndex),i+1),`R-${sceneIndex}`,`R-${angleIndex}`,relationPackKey]);
-      }
-      if(bank.length!==1000||seen.size!==1000)throw new Error("历史人物正式题库未能生成1000道唯一题目");
-      return bank;
-    }
-    const QUESTION_BANK=buildHistoricalQuestionBank(BASE_Q);
-    function secureShuffle(values){
+    const BASE_Q=[["⚖️ 决策方式","一个重大决定摆在你面前，你的第一反应是？",[["先明确目标和底线，再往下推进","决断"],["先了解这件事会牵动哪些人的利益与感受","共情"],["先想有没有跳出常规的新做法","开创"],["先把事情的来龙去脉和因果查清楚","洞察"]]],["⚖️ 决策方式","眼前的机会信息还不全，你更可能怎么做？",[["再收集一些关键信息，等看清了再判断","洞察"],["设好能承受的底线，然后尽快做决定","决断"],["先听听相关的人怎么想、有什么顾虑","共情"],["用很小的成本先试一下，边做边看","开创"]]],["⚖️ 决策方式","大家讨论很久还是没结论，你最可能做什么？",[["把各方分歧理清，找到大家都愿意接受的点","共情"],["提出一条大家没想到的新思路","开创"],["找出真正卡住这件事的关键环节","洞察"],["直接拍板，并愿意为结果负责","决断"]]],["⚖️ 决策方式","原计划突然被打乱，你的第一反应是？",[["把这次变化看成新的机会，重新找突破口","开创"],["先观察变化，想清楚它到底意味着什么","洞察"],["立刻重新排优先级，先稳住最重要的事","决断"],["先安抚身边人的情绪，让大家定下来","共情"]]],["🤝 人际协作","一段重要合作关系出现裂痕，你会先怎么做？",[["把问题和彼此的期望当面说清楚","表达"],["重新盘算双方还能互相提供什么价值","经营"],["守住自己的原则和底线，不轻易让步","独立"],["主动承担自己该负的那部分责任","担当"]]],["🤝 人际协作","团队士气低落时，你更可能怎么做？",[["带头接下最难最急的活儿，给大家一个支点","担当"],["把目标和意义讲清楚，帮大家重新建立信心","表达"],["重新调配资源，让大家尽快看到一点成果","经营"],["保持自己的节奏，不被低落情绪带偏","独立"]]],["🤝 人际协作","别人强烈反对你的选择时，你会怎么做？",[["重新评估这件事的成本和收益，再决定是否坚持","经营"],["按自己的价值判断继续走，不轻易被改变","独立"],["为这个选择承担后果，不让别人替你买单","担当"],["把理由解释到对方能真正听明白","表达"]]],["🤝 人际协作","你更希望别人怎么评价你？",[["活得清醒，始终知道自己要什么","独立"],["关键时刻靠得住，说到做到","担当"],["能把复杂的事情讲得清楚明白","表达"],["做事有章法，能把事情越做越好","经营"]]],["🚀 行动与变化","遇到一个从没做过的新项目，你更倾向怎么开始？",[["先做一个最小版本试试水","开创"],["先研究类似的案例和失败的教训","洞察"],["先定目标和截止时间，直接推进","决断"],["先听听团队成员最真实的顾虑","共情"]]],["🚀 行动与变化","发现一条大家习惯了却不合理的规则，你会怎么做？",[["先弄清楚它当初为什么存在、现在影响了谁","洞察"],["站出来推动它尽快被改掉","决断"],["先联合那些同样觉得不合理的人","共情"],["设计一套更合理的替代方案","开创"]]],["🚀 行动与变化","一件事做了很久还是没起色，你会怎么做？",[["给自己设一个最后期限，决定继续还是止损","决断"],["先确认一起做事的人还想不想继续","共情"],["换一种完全不同的思路再试一次","开创"],["回头重新检查最初的前提假设","洞察"]]],["🚀 行动与变化","遇到实力明显更强的对手，你更习惯怎么做？",[["换一条赛道，找对方顾不上的新机会","开创"],["分析对方真正的优势和软肋在哪里","洞察"],["抢先掌握节奏，正面争取主动权","决断"],["找到双方都关心的共同底线","共情"]]],["🧠 思考与表达","面对一堆复杂信息，你最相信哪一种判断？",[["经过反复验证、真的能落地的方法","经营"],["逻辑清楚、能讲得明白的结论","表达"],["自己独立思考后得出的判断","独立"],["经得起责任和后果检验的选择","担当"]]],["🧠 思考与表达","别人误解你时，你通常会怎么做？",[["不急着解释，继续做好自己的事","独立"],["先确认这个误解不会伤害到别人","担当"],["当场把事情解释清楚，消除误会","表达"],["先判断值不值得花时间解释","经营"]]],["🧠 思考与表达","准备一份重要提案时，你最看重什么？",[["它能不能真正落地、长期运转","经营"],["它有没有保留我自己独特的立场","独立"],["我愿不愿意为这个结果负责","担当"],["它能不能让陌生人也听懂并相信","表达"]]],["🧠 思考与表达","如果只能保留一种能力，你会选哪一种？",[["能清楚表达自己的想法和感受","表达"],["能把资源组织成长期的价值","经营"],["不被外界轻易左右自己的方向","独立"],["在关键时刻愿意站出来承担","担当"]]],["🏛️ 资源与责任","突然拿到一笔可以自由支配的资源，你会怎么做？",[["先确定最重要的目标，集中投入","决断"],["先解决身边人最紧迫的需要","共情"],["拿一部分支持一个高潜力的新尝试","开创"],["先研究怎么分配才能效益最大","洞察"]]],["🏛️ 资源与责任","资源只够保住一件事，你会优先保什么？",[["最有价值的信息和判断","洞察"],["最能影响全局的关键结果","决断"],["最需要被照顾的人","共情"],["最可能打开未来的新尝试","开创"]]],["🏛️ 资源与责任","你被临时推上台主持局面，会先做什么？",[["先听一圈意见，搞清大家真正需要什么","共情"],["先用一个新的方式快速把局面打开","开创"],["先梳理关键矛盾和先后顺序","洞察"],["先明确主线，马上分配任务","决断"]]],["🏛️ 资源与责任","高回报和高风险同时出现时，你更倾向于？",[["愿意为新的可能性冒一次险","开创"],["继续收集信息，尽量降低不确定性","洞察"],["设好止损线后，果断下注","决断"],["先评估它会给相关的人带来什么影响","共情"]]],["🌙 价值与人生","什么最能让你长期坚持做一件事？",[["能让更多人理解它的意义","表达"],["它能持续产生实实在在的价值","经营"],["它符合我真正相信的东西","独立"],["有人和结果需要我负责","担当"]]],["🌙 价值与人生","你理想中的成就更接近哪一种？",[["完成一件对很多人都有意义的事","担当"],["让一种想法被更多人看见和接受","表达"],["建立一个能长期运转下去的系统","经营"],["拥有按自己意愿生活的自由","独立"]]],["🌙 价值与人生","你最不能接受哪一种状态？",[["长期投入却没有产生真正的价值","经营"],["为了合群而违背自己","独立"],["关键时刻没有人愿意负责","担当"],["有想法却表达不出来","表达"]]],["🌙 价值与人生","很多年以后，你希望别人记住你什么？",[["我始终忠于自己的方向","独立"],["我守住了重要的人和事","担当"],["我留下了能影响别人的表达","表达"],["我创造了能继续生长的价值","经营"]]]];
+        function secureShuffle(values){
       const copy=values.slice();
       for(let i=copy.length-1;i>0;i--){const random=new Uint32Array(1);crypto.getRandomValues(random);const j=random[0]%(i+1);[copy[i],copy[j]]=[copy[j],copy[i]]}
       return copy;
     }
     function pickQuestionSet(count=24){
-      const contextGroups={decision:new Map(),relation:new Map()};
-      QUESTION_BANK.forEach((question,index)=>{
-        const context=question[3],group=String(context).startsWith("D-")?contextGroups.decision:contextGroups.relation;
-        if(!group.has(context))group.set(context,[]);group.get(context).push(index);
-      });
-      let history={questions:[],contexts:[]};
-      try{const saved=JSON.parse(sessionStorage.getItem("lishirenwu-used-questions-v4")||"{}");if(saved&&Array.isArray(saved.questions)&&Array.isArray(saved.contexts))history=saved}catch(error){history={questions:[],contexts:[]}}
-      const usedQuestions=new Set(history.questions.filter(index=>Number.isInteger(index)&&index>=0&&index<QUESTION_BANK.length));
-      const usedContexts=new Set(history.contexts.filter(context=>contextGroups.decision.has(context)||contextGroups.relation.has(context)));
-      const batchSignatures=new Set();
-      const take=(groups,amount)=>{
-        const allContexts=[...groups.keys()];let available=allContexts.filter(context=>!usedContexts.has(context));
-        if(available.length<amount){allContexts.forEach(context=>usedContexts.delete(context));available=allContexts.slice()}
-        return secureShuffle(available).slice(0,amount).map(context=>{
-          const variants=groups.get(context),unused=variants.filter(index=>!usedQuestions.has(index));
-          const freshSignatures=unused.filter(index=>{const question=QUESTION_BANK[index];return !batchSignatures.has(question[5]+":"+question[4])});
-          const candidates=freshSignatures.length?freshSignatures:unused.length?unused:variants,chosen=secureShuffle(candidates)[0],question=QUESTION_BANK[chosen];
-          batchSignatures.add(question[5]+":"+question[4]);
-          usedContexts.add(context);usedQuestions.add(chosen);return chosen;
-        });
-      };
-      const half=Math.floor(count/2),indexes=secureShuffle(take(contextGroups.decision,half).concat(take(contextGroups.relation,count-half)));
-      sessionStorage.setItem("lishirenwu-used-questions-v4",JSON.stringify({questions:[...usedQuestions],contexts:[...usedContexts]}));
-      return indexes.map(index=>QUESTION_BANK[index]);
+      return secureShuffle(BASE_Q).slice(0,count);
     }
     let Q=[];
     const state={gender:null,index:0,answers:[],advanceTimer:null,result:null};
@@ -493,7 +392,7 @@
     }
     function renderQuestion(){
       const i=state.index,[cat,text,opts]=Q[i];updateChrome(i);$("#chapterName").textContent=cat;$("#questionText").textContent=text;
-      $("#answerList").innerHTML=opts.map((o,j)=>`<button class="choice answer ${state.answers[i]===j?"selected":""}" data-i="${j}"><span class="letter">${"ABCD"[j]}</span><span><strong>${o[0]}</strong><small>更接近「${o[1]}」的行为倾向</small></span></button>`).join("");
+      $("#answerList").innerHTML=opts.map((o,j)=>`<button class="choice answer ${state.answers[i]===j?"selected":""}" data-i="${j}"><span class="letter">${"ABCD"[j]}</span><span><strong>${o[0]}</strong></span></button>`).join("");
       $("#autoHint").textContent=state.answers[i]===null?"选择后自动进入下一题":"本题已选择，可重新选择";$("#autoHint").classList.toggle("active",state.answers[i]!==null);
       document.querySelectorAll(".answer").forEach(btn=>btn.onclick=()=>{
         state.answers[i]=+btn.dataset.i;document.querySelectorAll(".answer").forEach(x=>x.classList.remove("selected"));btn.classList.add("selected");$("#nextBtn").disabled=false;
@@ -502,13 +401,22 @@
       });
       $("#nextBtn").disabled=state.answers[i]===null;$("#nextBtn").textContent=i===Q.length-1?"生成档案":"下一题";
     }
+        function personDelta(name,i){
+      let h=2166136261;const s=name+"·"+DIMS[i];
+      for(let k=0;k<s.length;k++){h^=s.charCodeAt(k);h=Math.imul(h,16777619)}
+      return ((h>>>0)%13)-6;
+    }
+    function personVector(p){
+      const base=ARCH[p.arch].vec;
+      return base.map((v,i)=>Math.max(3,Math.min(100,v+personDelta(p.name,i))));
+    }
     function finish(){
       const raw={};DIMS.forEach(d=>raw[d]=12);
       state.answers.forEach((a,i)=>{const dim=Q[i][2][a][1];raw[dim]+=9});
       const max=Math.max(...Object.values(raw)),min=Math.min(...Object.values(raw));
       const scores=DIMS.map(d=>Math.round(38+(raw[d]-min)/(max-min||1)*60));
       const pool=people.filter(p=>(state.gender==="all"||p.gender===state.gender)&&ARCH[p.arch]);
-      const distance=p=>{const v=ARCH[p.arch].vec;return Math.sqrt(v.reduce((sum,x,i)=>sum+(x-scores[i])**2,0))};
+      const distance=p=>{const v=personVector(p);return Math.sqrt(v.reduce((sum,x,i)=>sum+(x-scores[i])**2,0))};
       const ranked=pool.map(p=>({p,d:distance(p)})).sort((a,b)=>a.d-b.d);
       const person=ranked[0].p,a=ARCH[person.arch];
       const similarity=Math.max(76,Math.min(97,Math.round(100-ranked[0].d/4.8)));
@@ -561,30 +469,30 @@
       const topH=650,totalH=margin+topH+gap+portraitH+gap+dimensionsH+gap+commonH+gap+realityH+gap+riskH+gap+linesH+118;
       canvas.width=W;canvas.height=Math.ceil(totalH);
       const round=(x,y,w,h,r,fill,stroke)=>{roundedRectPath(c,x,y,w,h,r);if(fill){c.fillStyle=fill;c.fill()}if(stroke){c.strokeStyle=stroke;c.lineWidth=2;c.stroke()}};
-      const text=(value,x,y,size,color="#2D2458",weight=400,align="left")=>{c.font=font(size,weight);c.fillStyle=color;c.textAlign=align;c.textBaseline="top";c.fillText(String(value),x,y)};
-      const paragraph=(value,x,y,maxWidth,size=24,lineHeight=40,color="#514A75",weight=400,align="left")=>{const rows=split(value,maxWidth,size,weight);rows.forEach((row,index)=>text(row,x,y+index*lineHeight,size,color,weight,align));return y+rows.length*lineHeight};
-      const section=(title,y,h)=>{round(margin,y,cardW,h,28,"#FFFFFF","#E2DCF5");text(title,margin+pad,y+34,29,"#2D2458",900);return y+94};
-      const bg=c.createLinearGradient(0,0,W,totalH);bg.addColorStop(0,"#F7F4FD");bg.addColorStop(.55,"#EFEAF7");bg.addColorStop(1,"#E8E4F2");c.fillStyle=bg;c.fillRect(0,0,W,totalH);
+      const text=(value,x,y,size,color="#2B2722",weight=400,align="left")=>{c.font=font(size,weight);c.fillStyle=color;c.textAlign=align;c.textBaseline="top";c.fillText(String(value),x,y)};
+      const paragraph=(value,x,y,maxWidth,size=24,lineHeight=40,color="#4A443B",weight=400,align="left")=>{const rows=split(value,maxWidth,size,weight);rows.forEach((row,index)=>text(row,x,y+index*lineHeight,size,color,weight,align));return y+rows.length*lineHeight};
+      const section=(title,y,h)=>{round(margin,y,cardW,h,28,"#FFFCF5","#DED4BF");text(title,margin+pad,y+34,29,"#2B2722",900);return y+94};
+      const bg=c.createLinearGradient(0,0,W,totalH);bg.addColorStop(0,"#F7F1E5");bg.addColorStop(.55,"#EEE7D8");bg.addColorStop(1,"#EAE2D0");c.fillStyle=bg;c.fillRect(0,0,W,totalH);
 
       let y=margin;
-      round(margin,y,cardW,topH,34,"#FFFFFF","#E2DCF5");
-      text("你的历史人物匹配结果",W/2,y+42,25,"#7B68C8",800,"center");
-      text("🏛️",W/2,y+86,54,"#2D2458",400,"center");
-      const pctGradient=c.createLinearGradient(W/2-120,0,W/2+120,0);pctGradient.addColorStop(0,"#7B68C8");pctGradient.addColorStop(1,"#6B5DB8");c.font=font(92,900);c.fillStyle=pctGradient;c.textAlign="center";c.textBaseline="top";c.fillText($("#matchRate").textContent.trim(),W/2,y+154);
-      text($("#resultName").textContent.trim(),W/2,y+264,56,"#2D2458",900,"center");
-      text($("#resultTitle").textContent.trim(),W/2,y+336,24,"#8279AE",500,"center");
-      const tagValues=[...document.querySelectorAll("#resultTags .tag")].map(node=>node.textContent.trim());c.font=font(21,700);const tagWidths=tagValues.map(value=>c.measureText(value).width+40),tagTotal=tagWidths.reduce((sum,width)=>sum+width,0)+(tagValues.length-1)*12;let tagX=(W-tagTotal)/2;tagValues.forEach((value,index)=>{round(tagX,y+385,tagWidths[index],42,21,"#F1EDF9","#DDD8EE");text(value,tagX+tagWidths[index]/2,y+393,21,"#6B5DB8",700,"center");tagX+=tagWidths[index]+12});
-      const dominant=$("#dominant").textContent.trim();c.font=font(21,700);const dominantW=c.measureText(dominant).width+44;round((W-dominantW)/2,y+447,dominantW,44,22,"#F1EDF9");text(dominant,W/2,y+455,21,"#6B5DB8",700,"center");
-      round(margin+pad,y+515,innerW,104,20,"#F7F4FD","#E2DCF5");text("人物心声",margin+pad+24,y+535,21,"#6B5DB8",800);paragraph(quote,margin+pad+24,y+570,innerW-48,23,36,"#514A75",400);
+      round(margin,y,cardW,topH,34,"#FFFCF5","#DED4BF");
+      text("你的历史人物匹配结果",W/2,y+42,25,"#C9A45C",800,"center");
+      text("🏛️",W/2,y+86,54,"#2B2722",400,"center");
+      const pctGradient=c.createLinearGradient(W/2-120,0,W/2+120,0);pctGradient.addColorStop(0,"#C9A45C");pctGradient.addColorStop(1,"#A67C3D");c.font=font(92,900);c.fillStyle=pctGradient;c.textAlign="center";c.textBaseline="top";c.fillText($("#matchRate").textContent.trim(),W/2,y+154);
+      text($("#resultName").textContent.trim(),W/2,y+264,56,"#2B2722",900,"center");
+      text($("#resultTitle").textContent.trim(),W/2,y+336,24,"#8B8174",500,"center");
+      const tagValues=[...document.querySelectorAll("#resultTags .tag")].map(node=>node.textContent.trim());c.font=font(21,700);const tagWidths=tagValues.map(value=>c.measureText(value).width+40),tagTotal=tagWidths.reduce((sum,width)=>sum+width,0)+(tagValues.length-1)*12;let tagX=(W-tagTotal)/2;tagValues.forEach((value,index)=>{round(tagX,y+385,tagWidths[index],42,21,"#F7F1E5","#DED4BF");text(value,tagX+tagWidths[index]/2,y+393,21,"#A67C3D",700,"center");tagX+=tagWidths[index]+12});
+      const dominant=$("#dominant").textContent.trim();c.font=font(21,700);const dominantW=c.measureText(dominant).width+44;round((W-dominantW)/2,y+447,dominantW,44,22,"#F7F1E5");text(dominant,W/2,y+455,21,"#A67C3D",700,"center");
+      round(margin+pad,y+515,innerW,104,20,"#F7F1E5","#DED4BF");text("人物心声",margin+pad+24,y+535,21,"#A67C3D",800);paragraph(quote,margin+pad+24,y+570,innerW-48,23,36,"#4A443B",400);
       y+=topH+gap;
 
-      let bodyY=section("01 · 人物自画像",y,portraitH);paragraph(portrait,margin+pad,bodyY,innerW,25,42,"#514A75",400);y+=portraitH+gap;
-      bodyY=section("02 · 八维能力结构",y,dimensionsH);state.result.scores.forEach((score,index)=>{const rowY=bodyY+index*48;text(DIMS[index],margin+pad,rowY+8,22,"#655D8F",600);round(margin+pad+132,rowY+14,innerW-220,15,8,"#F0EDF8");const bar=c.createLinearGradient(margin+pad+132,0,margin+cardW-pad-88,0);bar.addColorStop(0,"#7B68C8");bar.addColorStop(1,"#6B5DB8");round(margin+pad+132,rowY+14,(innerW-220)*score/100,15,8,bar);text(score,margin+cardW-pad,rowY+6,23,"#6B5DB8",800,"right")});y+=dimensionsH+gap;
-      bodyY=section("03 · 你与 TA 的共同底色",y,commonH);common.forEach((item,index)=>{const x=margin+pad+index*(colW+colGap);round(x,bodyY,colW,commonInnerH,20,"#FAF8FF","#E2DCF5");text(item.title,x+18,bodyY+24,21,"#2D2458",800);paragraph(item.body,x+18,bodyY+62,colW-36,21,36,"#625B86",400)});y+=commonH+gap;
-      bodyY=section("04 · 现实中的你",y,realityH);round(margin+pad,bodyY,innerW,realityH-128,20,"#FAF8FF","#E2DCF5");text("现实互动方式",margin+pad+22,bodyY+24,22,"#2D2458",800);paragraph(reality,margin+pad+22,bodyY+64,innerW-44,23,39,"#625B86",400);y+=realityH+gap;
-      bodyY=section("05 · 性格盲点与风险提醒",y,riskH);risks.forEach((item,index)=>{const x=margin+pad+index*(colW+colGap);round(x,bodyY,colW,riskInnerH,20,"#FAF8FF","#E2DCF5");text(item.title,x+18,bodyY+24,21,"#2D2458",800);paragraph(item.body,x+18,bodyY+62,colW-36,21,36,"#625B86",400)});y+=riskH+gap;
-      bodyY=section("06 · 你的三句人物台词",y,linesH);lines.forEach((value,index)=>{const x=margin+pad+index*(colW+colGap);round(x,bodyY,colW,linesInnerH,20,"#FAF8FF","#E2DCF5");paragraph(value,x+18,bodyY+28,colW-36,22,38,"#625B86",400)});y+=linesH;
-      text("历史人物测试新版 · 趣味性自我探索结果",W/2,y+48,19,"#8D86AE",600,"center");
+      let bodyY=section("01 · 人物自画像",y,portraitH);paragraph(portrait,margin+pad,bodyY,innerW,25,42,"#4A443B",400);y+=portraitH+gap;
+      bodyY=section("02 · 八维能力结构",y,dimensionsH);state.result.scores.forEach((score,index)=>{const rowY=bodyY+index*48;text(DIMS[index],margin+pad,rowY+8,22,"#6B6355",600);round(margin+pad+132,rowY+14,innerW-220,15,8,"#EFE8D8");const bar=c.createLinearGradient(margin+pad+132,0,margin+cardW-pad-88,0);bar.addColorStop(0,"#C9A45C");bar.addColorStop(1,"#A67C3D");round(margin+pad+132,rowY+14,(innerW-220)*score/100,15,8,bar);text(score,margin+cardW-pad,rowY+6,23,"#A67C3D",800,"right")});y+=dimensionsH+gap;
+      bodyY=section("03 · 你与 TA 的共同底色",y,commonH);common.forEach((item,index)=>{const x=margin+pad+index*(colW+colGap);round(x,bodyY,colW,commonInnerH,20,"#FBF7EE","#DED4BF");text(item.title,x+18,bodyY+24,21,"#2B2722",800);paragraph(item.body,x+18,bodyY+62,colW-36,21,36,"#5A5348",400)});y+=commonH+gap;
+      bodyY=section("04 · 现实中的你",y,realityH);round(margin+pad,bodyY,innerW,realityH-128,20,"#FBF7EE","#DED4BF");text("现实互动方式",margin+pad+22,bodyY+24,22,"#2B2722",800);paragraph(reality,margin+pad+22,bodyY+64,innerW-44,23,39,"#5A5348",400);y+=realityH+gap;
+      bodyY=section("05 · 性格盲点与风险提醒",y,riskH);risks.forEach((item,index)=>{const x=margin+pad+index*(colW+colGap);round(x,bodyY,colW,riskInnerH,20,"#FBF7EE","#DED4BF");text(item.title,x+18,bodyY+24,21,"#2B2722",800);paragraph(item.body,x+18,bodyY+62,colW-36,21,36,"#5A5348",400)});y+=riskH+gap;
+      bodyY=section("06 · 你的三句人物台词",y,linesH);lines.forEach((value,index)=>{const x=margin+pad+index*(colW+colGap);round(x,bodyY,colW,linesInnerH,20,"#FBF7EE","#DED4BF");paragraph(value,x+18,bodyY+28,colW-36,22,38,"#5A5348",400)});y+=linesH;
+      text("历史人物测试新版 · 趣味性自我探索结果",W/2,y+48,19,"#9A917F",600,"center");
       return canvas;
     }
     const phoneSaveMode=()=>matchMedia("(max-width:900px)").matches||/iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
@@ -600,25 +508,18 @@
     $("#restartBtn").onclick=()=>{state.gender=null;state.index=0;state.answers=[];state.result=null;Q=[];document.querySelectorAll(".gender").forEach(x=>x.classList.remove("selected"));$("#prefNext").disabled=true;$("#topCount").textContent="人物档案库";show(intro);window.scrollTo(0,0)};
     refreshExportLabel();
     window.addEventListener("resize",refreshExportLabel);
-    window.__historyQuestionDiagnostics=()=>{
-      const contexts=new Set(),dimensions={},themeCounts={},optionTexts=new Set();DIMS.forEach(dim=>dimensions[dim]=0);
-      let logicErrors=0;
-      QUESTION_BANK.forEach(question=>{
-        const context=question[3],theme=question[5],sceneIndex=Number(String(context).split("-")[1]),isDecision=String(context).startsWith("D-");
-        const expectedTheme=isDecision?DECISION_PACK_BY_SCENE[sceneIndex]:RELATION_PACK_BY_SCENE[sceneIndex],pack=isDecision?DECISION_OPTION_PACKS[theme]:RELATION_OPTION_PACKS[theme];
-        contexts.add(context);themeCounts[theme]=(themeCounts[theme]||0)+1;
-        const texts=question[2].map(option=>option[0]);texts.forEach(text=>optionTexts.add(text));question[2].forEach(option=>dimensions[option[1]]++);
-        if(!pack||theme!==expectedTheme||question[0]!==pack.category||question[2].length!==4||new Set(texts).size!==4)logicErrors++;
-      });
-      return{total:QUESTION_BANK.length,uniqueQuestions:new Set(QUESTION_BANK.map(question=>questionTextKey(question[1]))).size,uniqueContexts:contexts.size,uniqueOptionTexts:optionTexts.size,logicErrors,themeCounts,dimensions};
+        window.__historyQuestionDiagnostics=()=>{
+      const dimensions={};DIMS.forEach(dim=>dimensions[dim]=0);
+      BASE_Q.forEach(question=>{question[2].forEach(option=>dimensions[option[1]]++);
+        if(question[2].length!==4||new Set(question[2].map(option=>option[0])).size!==4)console.warn("题目选项异常",question[1]);});
+      return{total:BASE_Q.length,uniqueQuestions:new Set(BASE_Q.map(question=>question[1])).size,dimensions};
     };
-    window.__historyPickQuestionSet=(count=24)=>pickQuestionSet(count).map(question=>({context:question[3],theme:question[5],question:question[1],options:question[2].map(option=>option[0])}));
-    console.assert(QUESTION_BANK.length===1000,"正式题库应为1000题");
-    console.assert(new Set(QUESTION_BANK.map(question=>questionTextKey(question[1]))).size===1000,"正式题库题干不得重复");
-    console.assert(DIMS.every(dim=>QUESTION_BANK.some(question=>question[2].some(option=>option[1]===dim))),"八个结果维度都必须由正式题目覆盖");
-    console.assert(people.length===119,`人物库应为119，当前${people.length}`);
+    window.__historyPickQuestionSet=(count=24)=>pickQuestionSet(count).map(question=>({category:question[0],question:question[1],options:question[2].map(option=>option[0])}));
+    console.assert(DIMS.length===8,"八个结果维度");
+    console.assert(BASE_Q.length===24,"正式问卷应为24题");
+    console.assert(people.length===118,`人物库应为118，当前${people.length}`);
     console.assert(people.filter(p=>p.gender==="male").length===62,"男性人物应为62");
-    console.assert(people.filter(p=>p.gender==="female").length===57,"女性人物应为57");
+    console.assert(people.filter(p=>p.gender==="female").length===56,"女性人物应为56");
     console.assert(people.every(p=>ARCH[p.arch]),"每位人物都必须配置有效的能力原型");
   })();
   </script>
