@@ -1,0 +1,1373 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <meta name="theme-color" content="#E8E4F2">
+  <title>社会化成熟度场景评估</title>
+  <style>
+    :root{--ink:#2D2458;--muted:#8880B0;--primary:#6B5DB8;--accent:#7B68C8;--bg:#E8E4F2;--line:#DDD8EE;--paper:rgba(255,255,255,.9);--soft:#F7F4FD;--gold:#D4AF37;--shadow:0 4px 20px rgba(107,93,184,.1)}
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;min-height:100vh;background:linear-gradient(145deg,#E8E4F2,#EFEAF7 55%,#E4DFEF);color:var(--ink);font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif}
+    button,input{font:inherit}
+    button{color:inherit}
+    h1,h2,h3,p{margin-top:0}
+    .hidden{display:none!important}
+    .shell{width:100%;max-width:680px;margin:auto;padding:20px 16px 56px}
+    .card,.q-header,.q-body,.top-card,.report-section{background:var(--paper);box-shadow:var(--shadow);border:1px solid rgba(107,93,184,.08)}
+    .card{border-radius:24px;padding:24px 22px;margin-bottom:18px}
+    .icon-box{width:72px;height:72px;border-radius:20px;background:linear-gradient(135deg,var(--accent),var(--primary));display:flex;align-items:center;justify-content:center;font-size:34px;color:#fff;margin:14px auto 16px;box-shadow:0 8px 28px rgba(107,93,184,.35)}
+    .hero-title{font-size:26px;font-weight:900;text-align:center;line-height:1.35;margin-bottom:7px}
+    .hero-title em{font-style:normal;color:var(--primary)}
+    .hero-sub{font-size:12px;color:#9180CC;letter-spacing:3px;font-weight:700;text-align:center;margin-bottom:22px}
+    .lead{font-size:14px;color:#615985;line-height:1.8;text-align:center;margin-bottom:20px}
+    .feature-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0 0 18px}
+    .feature-item{background:rgba(255,255,255,.86);border-radius:16px;padding:14px 10px;text-align:center;box-shadow:0 2px 14px rgba(107,93,184,.08);color:#615985;font-size:13px;font-weight:700}
+    .info-box{background:rgba(255,255,255,.65);border-left:3px solid var(--primary);border-radius:14px;padding:13px 16px;color:#5D5682;font-size:13px;line-height:1.7;margin-bottom:18px}
+    .eyebrow{font-size:13px;color:var(--primary);font-weight:800;letter-spacing:.08em;margin-bottom:8px}
+    .btn{border:none;border-radius:16px;padding:15px 20px;cursor:pointer;font-weight:800;transition:.15s transform,.15s box-shadow,.15s background}
+    .btn:hover{transform:translateY(-2px)}
+    .btn:focus-visible,.choice:focus-visible,.nav-btn:focus-visible{outline:3px solid rgba(123,104,200,.22);outline-offset:3px}
+    .primary{width:100%;background:linear-gradient(135deg,var(--accent),var(--primary));color:#fff;box-shadow:0 8px 24px rgba(107,93,184,.35);font-size:17px;letter-spacing:1px}
+    .ghost{width:100%;background:rgba(255,255,255,.85);border:2px solid var(--line);color:#5A5190}
+    .gold{width:100%;background:linear-gradient(135deg,#E4C158,#D4AF37);color:#3B2B10;box-shadow:0 8px 24px rgba(212,175,55,.35);font-size:16px}
+    .line{width:100%;background:rgba(255,255,255,.85);border:2px solid var(--line);color:#5A5190;margin-top:10px}
+    .intro-actions{display:grid;gap:10px}
+    .footnote{font-size:12px;color:#9B94C8;text-align:center;line-height:1.6;margin:14px 0 0}
+    .choices{display:flex;flex-direction:column;gap:12px;margin-top:20px}
+    .choice{width:100%;border:2px solid #E2DCF5;border-radius:16px;background:var(--soft);padding:15px 18px;text-align:left;cursor:pointer;display:flex;align-items:flex-start;gap:12px;transition:.16s all}
+    .choice:hover{border-color:var(--accent);background:rgba(123,104,200,.06)}
+    .choice.selected{border-color:var(--accent);background:rgba(123,104,200,.1);color:var(--primary);box-shadow:0 0 0 3px rgba(123,104,200,.08)}
+    .choice .letter{width:22px;flex:0 0 22px;color:var(--accent);font-size:18px;font-weight:900;text-align:center;line-height:1.45}
+    .choice strong{font-size:15px;display:block;font-weight:700}
+    .choice small{display:block;color:#8D86AE;margin-top:4px;font-size:12px;line-height:1.45}
+    .nav{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:20px}
+    .q-header{border-radius:20px;padding:16px 20px;margin-bottom:20px}
+    .q-meta{display:grid;grid-template-columns:1fr auto auto;gap:12px;align-items:center;margin-bottom:10px}
+    .q-cat{font-size:13px;font-weight:800;color:var(--primary)}
+    .q-count{font-size:13px;color:var(--muted)}
+    .q-pct{font-size:13px;font-weight:800;color:var(--accent)}
+    .progress-track{height:8px;background:var(--line);border-radius:99px;overflow:hidden}
+    .progress-bar{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--primary));border-radius:99px;transition:width .38s ease}
+    .q-body{border-radius:24px;padding:26px 24px;margin-bottom:18px;min-height:560px}
+    .q-text{font-size:21px;font-weight:900;line-height:1.45;margin:10px 0 22px}
+    .q-nav{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:22px}
+    .nav-btn{padding:12px 17px;border-radius:14px;border:2px solid var(--line);background:rgba(255,255,255,.86);cursor:pointer;font-size:14px;color:#746C9A}
+    .nav-btn:disabled{opacity:.35;cursor:not-allowed}
+    .auto-hint{font-size:12px;color:#9B94C8;flex:1;text-align:center;line-height:1.4;transition:.2s}
+    .auto-hint.active{color:var(--primary);font-weight:700}
+    .result{padding:0}
+    .top-card{border-radius:28px;padding:30px 24px 26px;text-align:center;margin-bottom:18px}
+    .top-sub{font-size:15px;color:var(--accent);font-weight:700;margin-bottom:12px;letter-spacing:1px}
+    .score-num{font-size:64px;font-weight:900;background:linear-gradient(135deg,var(--accent),var(--primary));-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1.05}
+    .level-bar{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:16px 0}
+    .level-item{border:2px solid var(--line);border-radius:14px;padding:10px 6px;font-size:12px;color:#756D9E;line-height:1.5}
+    .level-item.active{border-color:var(--accent);background:rgba(123,104,200,.1);color:var(--primary);font-weight:800}
+    .persona-grid{display:grid;gap:10px;text-align:left}
+    .persona-item{background:rgba(255,255,255,.86);border-radius:14px;padding:12px 14px;color:#756D9E;font-size:12px}
+    .persona-item b{display:block;color:var(--ink);font-size:14px;margin-top:3px}
+    .persona-item.warn b{color:#D32F2F}
+    .report-section{border-radius:24px;padding:23px;margin-bottom:18px}
+    .section-title{font-size:18px;font-weight:900;margin-bottom:16px}
+    .radar-box canvas{display:block;width:100%;height:300px}
+    .chart-fallback{display:none}
+    .chart-fallback-row{display:grid;grid-template-columns:60px 1fr 46px;align-items:center;gap:10px;font-size:13px;color:#655D8F;margin-bottom:10px}
+    .chart-fallback-track{height:8px;background:#F0EDF8;border-radius:99px;overflow:hidden}
+    .chart-fallback-fill{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--primary));border-radius:inherit}
+    .decision-map{display:flex;flex-direction:column;gap:12px}
+    .decision-map-item{background:#FAF8FF;border:1px solid #E2DCF5;border-radius:16px;padding:16px;line-height:1.75;color:#514A75;font-size:14px}
+    .decision-map-item strong{color:var(--ink);font-size:15px}
+    .decision-map-item b{display:block;color:var(--primary);margin:4px 0}
+    .decision-map-item p{margin:0}
+    .free-breakdown{border:1px solid #E2DCF5;border-radius:20px;overflow:hidden}
+    .free-summary{background:var(--soft);padding:16px;color:#514A75;font-size:14px;line-height:1.8}
+    .free-section{padding:16px}
+    .free-section-title{font-weight:800;color:var(--primary);margin-bottom:8px}
+    .free-section-body,.free-improve{color:#514A75;font-size:14px;line-height:1.8}
+    .free-value-pack{border:1px solid #E2DCF5;border-radius:20px;padding:16px;background:#FAF8FF}
+    .free-pack-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:14px}
+    .free-pack-head strong{color:var(--ink);font-size:15px;display:block}
+    .free-pack-head span{color:#756D9E;font-size:12px;line-height:1.5}
+    .free-badge{flex:0 0 auto;background:rgba(107,93,184,.1);color:var(--primary);border-radius:20px;padding:4px 10px;font-size:12px;font-weight:800}
+    .mini-grid{display:flex;flex-direction:column;gap:10px;margin-bottom:14px}
+    .mini-card{background:#fff;border:1px solid #E2DCF5;border-radius:14px;padding:12px 14px;color:#514A75;font-size:13px;line-height:1.7}
+    .mini-card b{color:var(--ink)}
+    .mini-card span{display:inline-block;margin-left:6px;color:var(--accent);font-weight:800}
+    .action-strip{background:#F1EDF9;border-radius:14px;padding:12px 14px;color:#514A75;font-size:13px;line-height:1.75;margin-bottom:14px}
+    .action-strip strong{color:var(--primary)}
+    .scene-list,.premium-list{display:flex;flex-direction:column;gap:10px}
+    .scene-item,.premium-list-item{background:#fff;border:1px solid #E2DCF5;border-radius:14px;padding:12px 14px;color:#514A75;font-size:13px;line-height:1.75}
+    .scene-item strong,.premium-list-item b{color:var(--ink)}
+    .locked-container .report-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+    .vip-badge{background:linear-gradient(135deg,#E4C158,#D4AF37);color:#3B2B10;border-radius:20px;padding:4px 10px;font-size:12px;font-weight:900}
+    .summary-text{color:#514A75;font-size:14px;line-height:1.8;margin-bottom:12px}
+    .content-blur{filter:blur(7px);opacity:.55;pointer-events:none;user-select:none}
+    .locked-overlay{position:relative;margin-top:16px;background:rgba(255,255,255,.86);border:1px solid #E2DCF5;border-radius:18px;padding:18px;text-align:center}
+    .overlay-title{font-weight:900;font-size:17px;color:var(--ink);margin-bottom:8px}
+    .locked-overlay p{font-size:13px;color:#756D9E;line-height:1.7;margin:0 0 12px}
+    .benefit-list{display:flex;flex-direction:column;gap:5px;font-size:13px;color:#5A5190;margin-bottom:14px;text-align:left}
+    .unlocked-view .content-blur{filter:none;opacity:1;pointer-events:auto;user-select:auto}
+    .unlocked-view .locked-overlay{display:none}
+    .detailed-text{color:#514A75;font-size:14px;line-height:1.85}
+    .dt-section{margin-bottom:16px}
+    .dt-label{display:block;color:var(--primary);font-weight:900;margin-bottom:6px}
+    .improve-plan{border-left:3px solid var(--primary);background:#FAF8FF;border-radius:0 14px 14px 0;padding:14px 16px;color:#514A75;font-size:14px;line-height:1.8}
+    .ip-head{display:block;font-weight:900;color:var(--primary);margin-bottom:8px;font-size:15px}
+    .plan-step{margin-bottom:14px}
+    .plan-step-title{font-weight:800;color:var(--ink);margin-bottom:4px}
+    .plan-tip{margin-top:12px;padding:10px 12px;background:#FFF8E1;border-radius:12px;color:#795548}
+    .premium-pack{display:flex;flex-direction:column;gap:16px}
+    .premium-section{border:1px solid #E2DCF5;border-radius:16px;padding:16px;background:#FAF8FF}
+    .premium-section h4{margin:0 0 12px;color:var(--ink);font-size:15px}
+    .premium-grid{display:flex;flex-direction:column;gap:10px}
+    .premium-card{background:#fff;border:1px solid #E2DCF5;border-radius:14px;padding:12px 14px;color:#514A75;font-size:13px;line-height:1.75}
+    .premium-card strong{color:var(--ink)}
+    .premium-card em{display:block;color:var(--accent);font-style:normal;font-weight:800;margin:2px 0 6px}
+    .premium-matrix{display:flex;flex-direction:column;gap:12px}
+    .premium-matrix-row{background:#fff;border:1px solid #E2DCF5;border-radius:14px;padding:12px 14px;color:#514A75;font-size:13px;line-height:1.8}
+    .premium-matrix-row b{color:var(--ink)}
+    .tone-tag{display:inline-block;margin-right:6px;background:#F1EDF9;color:var(--primary);border-radius:12px;padding:1px 8px;font-size:11px;font-weight:800}
+    .premium-note{background:#fff;border:1px solid #E2DCF5;border-radius:14px;padding:12px 14px;color:#514A75;font-size:14px;line-height:1.8}
+    .score-table{width:100%;border-collapse:collapse;font-size:13px;color:#514A75}
+    .score-table th,.score-table td{border:1px solid #E2DCF5;padding:9px 8px;text-align:left;line-height:1.5}
+    .score-table th{background:#F1EDF9;color:var(--primary)}
+    .template-box{white-space:pre-line;background:#fff;border:1px solid #E2DCF5;border-radius:14px;padding:12px 14px;color:#514A75;font-size:13px;line-height:1.8}
+    .scripts .script-header{font-weight:900;color:var(--ink);margin-bottom:14px}
+    .script-list{display:flex;flex-direction:column;gap:12px}
+    .s-card{background:#FAF8FF;border:1px solid #E2DCF5;border-radius:16px;padding:14px 16px}
+    .s-head{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+    .s-num{width:24px;height:24px;border-radius:8px;background:linear-gradient(135deg,var(--accent),var(--primary));color:#fff;display:grid;place-items:center;font-size:12px;font-weight:900}
+    .s-tag{color:var(--primary);font-weight:800;font-size:13px}
+    .s-q{color:var(--ink);font-weight:800;font-size:14px;margin-bottom:8px}
+    .s-ans{color:#514A75;font-size:13px;line-height:1.8}
+    .share-actions{display:grid;gap:10px;margin:12px 0}
+    .share-btn{width:100%;border:none;border-radius:16px;padding:14px;background:linear-gradient(135deg,var(--accent),var(--primary));color:#fff;font-weight:800;cursor:pointer;box-shadow:0 8px 24px rgba(107,93,184,.25)}
+    .share-status{font-size:12px;color:#9B94C8;text-align:center;min-height:18px}
+    .footer-note{margin:18px 0 0;text-align:center;color:#9B94C8;font-size:12px}
+    .toast{position:fixed;left:50%;bottom:28px;transform:translate(-50%,20px);width:max-content;max-width:min(520px,calc(100% - 32px));background:#2D2458;color:#fff;padding:11px 18px;border-radius:18px;text-align:center;line-height:1.6;opacity:0;pointer-events:none;transition:.25s;z-index:30}
+    .toast.show{opacity:1;transform:translate(-50%,0)}
+    .access-gate{position:fixed;inset:0;z-index:20;display:grid;place-items:center;padding:20px;background:linear-gradient(145deg,#E8E4F2,#EFEAF7)}
+    .access-card{width:min(460px,100%);background:rgba(255,255,255,.9);border-radius:24px;padding:28px 24px;text-align:center;box-shadow:var(--shadow)}
+    .lock-mark{width:72px;height:72px;border-radius:20px;margin:0 auto 18px;display:grid;place-items:center;background:linear-gradient(135deg,var(--accent),var(--primary));color:#fff;font-size:32px;box-shadow:0 8px 28px rgba(107,93,184,.35)}
+    .access-card h1{font-size:25px;margin-bottom:8px}
+    .access-card p{color:var(--muted);font-size:13px;line-height:1.7}
+    .access-input{display:block;width:100%;margin:20px auto 14px;padding:14px;border:2px solid var(--line);border-radius:14px;background:#fff;text-align:center;font-size:28px;font-weight:800;letter-spacing:12px;color:var(--primary);outline:0}
+    .access-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(123,104,200,.15)}
+    .access-error{min-height:22px;margin:10px 0 0;color:#EF4444;font-size:13px;opacity:0}
+    .access-error.show{opacity:1}
+    @media(min-width:640px){.mini-grid{display:grid;grid-template-columns:1fr 1fr}.premium-grid{display:grid;grid-template-columns:1fr 1fr}}
+    @media(max-width:480px){.shell{padding:12px 12px 40px}.card,.q-body{padding:22px 17px}.q-body{min-height:610px}.q-header{padding:15px 16px}.q-meta{gap:7px}.q-text{font-size:19px}.choice{padding:14px 13px}.nav-btn{padding:11px 12px}.auto-hint{font-size:11px}.report-section{padding:23px 18px}.score-num{font-size:56px}}
+    @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+  </style>
+</head>
+<body>
+  <section class="access-gate" id="accessGate">
+    <div class="access-card">
+      <div class="lock-mark">🔐</div>
+      <div class="hero-sub">SOCIAL MATURITY · PRIVATE TEST</div>
+      <h1>访问验证</h1>
+      <p>请输入四位访问码，解锁社会化成熟度场景评估。</p>
+      <input class="access-input" id="accessInput" type="tel" inputmode="numeric" maxlength="4" placeholder="••••" aria-label="四位访问码">
+      <button class="btn primary" id="unlockBtn">立即解锁</button>
+      <p class="access-error" id="accessError" aria-live="polite">访问码错误，请重新输入</p>
+    </div>
+  </section>
+
+  <main class="shell" id="appShell">
+    <section class="card intro" id="intro">
+      <div class="icon-box">👥</div>
+      <h1 class="hero-title">社会化成熟度 <em>深度评估</em></h1>
+      <div class="hero-sub">SOCIAL MATURITY · SCENARIO TEST</div>
+      <p class="lead">别让“读不懂空气”成为你一辈子的亏。通过 40 个真实场景，判断你的人情洞察、边界分寸、利益博弈与情绪控制能力。</p>
+      <div class="feature-grid">
+        <div class="feature-item">👁️ 人情洞察</div>
+        <div class="feature-item">🛡️ 边界防御</div>
+        <div class="feature-item">⚖️ 利益博弈</div>
+        <div class="feature-item">🎭 情绪控制</div>
+      </div>
+      <div class="info-box">没有标准答案，请选择最接近真实自己的反应。每个选项按 1–5 分计入四个能力维度。</div>
+      <div class="intro-actions">
+        <button class="btn primary" id="startBtn">开始专业评估</button>
+        <button class="btn ghost" id="retestIntroBtn">重新测试</button>
+      </div>
+      <button class="btn line" id="lastReportBtn">查看上次测试报告</button>
+      <p class="footnote">同一设备可重复测试；报告保存在本机浏览器中。</p>
+    </section>
+
+    <section class="q-header hidden" id="quizChrome">
+      <div class="q-meta">
+        <span class="q-cat" id="stageLabel">📌 场景题</span>
+        <span class="q-count" id="progressText">1 / 40</span>
+        <span class="q-pct" id="progressPct">3%</span>
+      </div>
+      <div class="progress-track"><i class="progress-bar" id="progressBar"></i></div>
+    </section>
+
+    <section class="q-body hidden" id="question">
+      <div class="eyebrow" id="chapterName">场景判断</div>
+      <h2 class="q-text" id="questionText"></h2>
+      <div class="choices" id="answerList"></div>
+      <div class="q-nav">
+        <button class="nav-btn" id="prevBtn">上一题</button>
+        <div class="auto-hint" id="autoHint">选择后自动进入下一题</div>
+        <button class="nav-btn" id="nextBtn" disabled>下一题</button>
+      </div>
+    </section>
+
+    <section class="result hidden" id="result">
+      <div class="top-card">
+        <div class="top-sub">你的社会化成熟度结果</div>
+        <div class="score-num" id="resultScore">--</div>
+        <div class="level-bar">
+          <span class="level-item" id="lvl-1">社交隐形人<br>0–60</span>
+          <span class="level-item" id="lvl-2">温和跟随者<br>60–80</span>
+          <span class="level-item" id="lvl-3">局势掌控者<br>80–100</span>
+        </div>
+        <div class="persona-grid">
+          <div class="persona-item"><span>画像标签</span><b id="personaTag">--</b></div>
+          <div class="persona-item"><span>主要症状</span><b id="personaSym">--</b></div>
+          <div class="persona-item warn"><span>潜在风险</span><b id="personaRisk">--</b></div>
+        </div>
+      </div>
+
+      <section class="report-section">
+        <div class="section-title">01 · 四维能力雷达</div>
+        <div class="radar-box">
+          <canvas id="radarChart"></canvas>
+          <div class="chart-fallback" id="chartFallback"></div>
+        </div>
+      </section>
+
+      <section class="report-section">
+        <div class="section-title">02 · 核心决策地图</div>
+        <div class="decision-map" id="socialDecisionMap"></div>
+      </section>
+
+      <section class="report-section">
+        <div class="section-title">03 · 免费维度深度拆解</div>
+        <div class="free-breakdown">
+          <div class="free-summary" id="freeSummary"></div>
+          <div class="free-section"><div class="free-section-title">深度解读</div><div class="free-section-body" id="freeDetail"></div></div>
+          <div class="free-section"><div class="free-section-title">行为模式</div><div class="free-section-body" id="freeBehavior"></div></div>
+          <div class="free-section"><div class="free-section-title">改进方向</div><div class="free-improve" id="freeImprove"></div></div>
+        </div>
+      </section>
+
+      <section class="report-section">
+        <div class="section-title">04 · 免费完整结果包</div>
+        <div class="free-value-pack" id="freeValuePack"></div>
+      </section>
+
+      <section class="report-section locked-container" id="lockedContainer">
+        <div class="report-title">05 · 深度评估报告 & 改进方案 <span class="vip-badge">增强版</span></div>
+        <div id="summaryContent"></div>
+        <div class="content-blur">
+          <div id="hiddenDetailContent"></div>
+          <div id="hiddenPlanContent"></div>
+          <div id="hiddenBonusContent"></div>
+        </div>
+        <div class="locked-overlay" id="reportOverlay">
+          <div class="overlay-title">✅ 基础报告已生成</div>
+          <p>深度版额外包含：更细的拆解、90 天改进方案、30 套高情商回话剧本。</p>
+          <div class="benefit-list">
+            <span>✅ 社会化深度拆解报告</span>
+            <span>✅ 针对性进阶改进方案</span>
+            <span>✅ 30 套高情商回话剧本</span>
+          </div>
+          <button class="btn gold" id="deepUnlockBtn">解锁深度版（演示版）</button>
+        </div>
+      </section>
+
+      <section class="report-section scripts hidden" id="scriptContainer">
+        <div class="script-header">💊 拿来即用：30 套高情商回话剧本</div>
+        <div class="script-list" id="scriptList"></div>
+      </section>
+
+      <section class="report-section share-card" id="shareCard">
+        <div class="section-title">把结果发给朋友看看</div>
+        <div class="share-actions">
+          <button class="share-btn" id="copyShareBtn">复制结果文案</button>
+        </div>
+        <p class="share-status" id="shareStatus"></p>
+      </section>
+
+      <div class="share-actions">
+        <button class="btn primary" id="retestBtn">重新测试</button>
+      </div>
+      <p class="footer-note">本测试用于趣味性自我探索，不构成心理测评或专业建议。</p>
+    </section>
+  </main>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+  (() => {
+    'use strict';
+    const ACCESS_CODE = '2026';
+    const STORAGE_KEY = 'shehuihua_static_unlocked';
+    const REPORT_KEY = 'shehuihua_last_report';
+    const $ = (id) => document.getElementById(id);
+
+    const QUESTIONS = [
+      { scene: '领导把一件事交给你，只说“你看着办”，没有给标准和截止时间。你会怎么处理？', d: 0, options: [
+        { text: '按自己的理解先做，做出来再说。', score: 2 },
+        { text: '先问清目标、标准和截止时间，再开始做。', score: 5 },
+        { text: '先找熟悉领导风格的同事打听一下。', score: 4 },
+        { text: '暂时等等，领导真着急自然会再催。', score: 1 }
+      ] },
+      { scene: '饭局刚开始，你第一次见这一桌人，大家都在寒暄。你会先观察什么？', d: 0, options: [
+        { text: '谁声音最大、最能聊，就先围着谁接话。', score: 3 },
+        { text: '谁被频繁征询意见、谁被主动敬酒。', score: 5 },
+        { text: '先和旁边熟一点的人聊天，别冷场就行。', score: 2 },
+        { text: '不太观察，先吃饭，等别人带节奏。', score: 1 }
+      ] },
+      { scene: '朋友说“随便，你定吧”，但语气有点不太高兴。你会怎么接？', d: 0, options: [
+        { text: '既然他说随便，就直接按我方便的定。', score: 2 },
+        { text: '给两个选择让他挑，顺便看他更倾向哪个。', score: 5 },
+        { text: '一直问“你到底想要什么”，问到他说清楚。', score: 3 },
+        { text: '怕麻烦，干脆说那就下次再约。', score: 1 }
+      ] },
+      { scene: '有人说“改天一起吃饭”，你不确定是真约还是客套。你会怎么办？', d: 0, options: [
+        { text: '马上追问具体哪天，看看对方怎么说。', score: 3 },
+        { text: '先看对方有没有主动给时间、地点或后续动作。', score: 5 },
+        { text: '直接当真，第二天就发消息约时间。', score: 2 },
+        { text: '一律当客套，不再往下接。', score: 1 }
+      ] },
+      { scene: '你要和一个第一次见面的人沟通合作，对方穿着正式、说话很快。你会怎么调整？', d: 0, options: [
+        { text: '先用正式、简洁的方式说重点，再看对方反应。', score: 5 },
+        { text: '还是按自己平时说话方式来，真实一点。', score: 2 },
+        { text: '多夸几句让气氛热起来，关系近了再谈事。', score: 3 },
+        { text: '尽量少说，怕说错话。', score: 1 }
+      ] },
+      { scene: '一群人聊天突然冷场，大家都有点尴尬。你会怎么处理？', d: 0, options: [
+        { text: '顺着刚才最后一个话题补一句轻松的延伸。', score: 5 },
+        { text: '赶紧换个完全新的话题，越热闹越好。', score: 3 },
+        { text: '假装没发现，低头看手机。', score: 1 },
+        { text: '笑一下，等更会聊天的人来救场。', score: 2 }
+      ] },
+      { scene: '同事说“有空帮我看看这个”，但没有说明具体要你做什么。你会怎么回？', d: 0, options: [
+        { text: '直接答应，反正先接住关系。', score: 2 },
+        { text: '问清他希望我看哪一块、什么时候要反馈。', score: 5 },
+        { text: '先说我最近很忙，让他找别人。', score: 3 },
+        { text: '不回复，等他自己再说清楚。', score: 1 }
+      ] },
+      { scene: '部门里两个人表面客气，但每次开会都互相否定。你会怎么判断？', d: 0, options: [
+        { text: '只看他们说的话，别想太多。', score: 2 },
+        { text: '观察他们各自支持谁、反对谁、关键时刻站哪边。', score: 5 },
+        { text: '私下问别人他们是不是有矛盾。', score: 3 },
+        { text: '认定他们就是互相讨厌，以后都避开。', score: 1 }
+      ] },
+      { scene: '朋友说话说一半停住了，好像有话没说出口。你会怎么做？', d: 0, options: [
+        { text: '直接追问“你到底想说什么”。', score: 3 },
+        { text: '先给空间：“你要是方便说，我听着。”', score: 5 },
+        { text: '装作没听出来，免得尴尬。', score: 2 },
+        { text: '马上替他下结论，帮他把话说完。', score: 1 }
+      ] },
+      { scene: '你看到两个明明互相不喜欢的人，在公开场合还能谈笑风生。你会怎么理解？', d: 0, options: [
+        { text: '觉得他们太假，没必要学。', score: 1 },
+        { text: '明白这是场合需要，关系和情绪可以分开处理。', score: 5 },
+        { text: '觉得他们可能其实关系很好。', score: 2 },
+        { text: '先观察他们私下有没有真实合作。', score: 4 }
+      ] },
+      { scene: '异性朋友开了一个有点暧昧的玩笑，旁边还有别人。你会怎么接？', d: 1, options: [
+        { text: '顺着开更暧昧的玩笑，显得会玩。', score: 1 },
+        { text: '轻轻带过，把话题拉回安全范围。', score: 5 },
+        { text: '当场严肃提醒对方不要乱说。', score: 3 },
+        { text: '假装没听见，等气氛自己过去。', score: 2 }
+      ] },
+      { scene: '朋友说想自己解决问题，但你很想帮他安排好。你会怎么做？', d: 1, options: [
+        { text: '先问他需要建议、陪伴，还是只想自己消化。', score: 5 },
+        { text: '直接帮他联系资源，事后他会感谢我的。', score: 2 },
+        { text: '完全不管，免得被嫌多事。', score: 3 },
+        { text: '反复劝他按我的方法来。', score: 1 }
+      ] },
+      { scene: '熟人让你帮一个很麻烦的忙，还说“你这么好说话肯定没问题”。你会怎么回？', d: 1, options: [
+        { text: '先答应下来，关系不能弄僵。', score: 1 },
+        { text: '说清自己能帮到哪一步，超出的部分让对方自己处理。', score: 5 },
+        { text: '直接拒绝，以后这种人少来往。', score: 3 },
+        { text: '拖着不回复，让对方自己明白。', score: 2 }
+      ] },
+      { scene: '你半夜想到一个工作问题，想发给不太熟的同事确认。你会怎么处理？', d: 1, options: [
+        { text: '马上发，工作重要，早说早安心。', score: 1 },
+        { text: '先记下来，第二天上班时间再发。', score: 5 },
+        { text: '发一句“不急，你明天看”，这样就没事。', score: 3 },
+        { text: '干脆不问，怕打扰别人。', score: 2 }
+      ] },
+      { scene: '去别人家做客，时间已经不早，对方开始收拾桌面。你会怎么判断？', d: 1, options: [
+        { text: '主动说今天打扰了，找个自然理由告辞。', score: 5 },
+        { text: '继续聊，说明对方还愿意留我。', score: 1 },
+        { text: '问对方是不是要休息了。', score: 4 },
+        { text: '等对方明确说“你该走了”。', score: 2 }
+      ] },
+      { scene: '朋友刚分手，你很好奇具体原因。你会怎么问？', d: 1, options: [
+        { text: '直接问到底谁的问题，帮他分析。', score: 1 },
+        { text: '先关心状态，只在对方愿意说时再听细节。', score: 5 },
+        { text: '问一句“不方便说也没事”，留出口。', score: 4 },
+        { text: '完全不提，免得触碰隐私。', score: 3 }
+      ] },
+      { scene: '你在公共场合接到电话，对方声音很急，需要聊几分钟。你会怎么做？', d: 1, options: [
+        { text: '原地接，事情急就顾不上那么多。', score: 1 },
+        { text: '降低音量，走到不影响别人的地方再说。', score: 5 },
+        { text: '先挂掉，之后再回。', score: 3 },
+        { text: '捂着话筒小声说，但不挪位置。', score: 2 }
+      ] },
+      { scene: '同事聚餐时有人开始聊另一个同事的私生活。你会怎么接？', d: 1, options: [
+        { text: '跟着听，大家都聊应该没事。', score: 1 },
+        { text: '用轻松方式把话题转到工作外的安全话题。', score: 5 },
+        { text: '严肃批评大家不要八卦。', score: 3 },
+        { text: '不参与，但也不提醒。', score: 4 }
+      ] },
+      { scene: '领导私下和你聊天，语气很随和，还吐槽了另一个同事。你会怎么回应？', d: 1, options: [
+        { text: '跟着吐槽，拉近和领导的关系。', score: 1 },
+        { text: '不评价人，只接事实和工作改进方向。', score: 5 },
+        { text: '沉默点头，尽量不表态。', score: 4 },
+        { text: '劝领导别生气，顺便说几句好听的。', score: 2 }
+      ] },
+      { scene: '朋友借了你几百块钱，过了很久没提还。你会怎么处理？', d: 1, options: [
+        { text: '不好意思开口，算了。', score: 1 },
+        { text: '找个自然理由提醒：“我这周要用钱，上次那笔方便转我吗？”', score: 5 },
+        { text: '直接发“还钱”两个字。', score: 3 },
+        { text: '以后不借给他，但这次不说。', score: 2 }
+      ] },
+      { scene: '分工时你明明多做了很多，但大家默认按平均功劳算。你会怎么做？', d: 2, options: [
+        { text: '算了，怕一说就显得计较。', score: 1 },
+        { text: '用事实列出自己负责的部分，平静争取应有归属。', score: 5 },
+        { text: '私下抱怨，等别人替我说。', score: 2 },
+        { text: '下次少做一点，别再吃亏。', score: 3 }
+      ] },
+      { scene: '有人请你免费帮忙做一件原本该收费的事，还说“就顺手一下”。你会怎么回？', d: 2, options: [
+        { text: '免费做，别为了钱破坏关系。', score: 1 },
+        { text: '说明可以简单给建议，实际代做需要按服务算。', score: 5 },
+        { text: '直接说没空。', score: 3 },
+        { text: '先做一次，后面再收费。', score: 2 }
+      ] },
+      { scene: '你想请前辈帮你介绍一个资源。开口前你会先准备什么？', d: 2, options: [
+        { text: '先说明自己能给对方节省什么麻烦、带来什么价值。', score: 5 },
+        { text: '直接说自己很需要帮忙，希望对方拉一把。', score: 2 },
+        { text: '先发很多客套话，把关系铺热。', score: 3 },
+        { text: '不敢开口，怕欠人情。', score: 1 }
+      ] },
+      { scene: '合作前对方一直谈感情，不愿把费用、分工、交付写清楚。你会怎么处理？', d: 2, options: [
+        { text: '相信熟人关系，先做起来。', score: 1 },
+        { text: '把规则写清楚，说明这是为了保护双方。', score: 5 },
+        { text: '嘴上答应，心里留个戒备。', score: 2 },
+        { text: '直接拒绝，不再沟通。', score: 3 }
+      ] },
+      { scene: '你和别人发生利益冲突，对方情绪很大。你会先做什么？', d: 2, options: [
+        { text: '先安抚情绪，再把双方真正要的东西拆开谈。', score: 5 },
+        { text: '直接强调规则，谁对谁错说清楚。', score: 3 },
+        { text: '退一步算了，关系比利益重要。', score: 1 },
+        { text: '暂停沟通，等对方冷静后再说。', score: 4 }
+      ] },
+      { scene: '别人帮了你一个不大不小的忙，你想表示感谢。你会怎么做？', d: 2, options: [
+        { text: '口头说谢谢就够了，太正式反而尴尬。', score: 2 },
+        { text: '根据关系轻重，用一顿饭、小礼物或下次帮忙来回馈。', score: 5 },
+        { text: '马上送很贵的礼，显得我懂事。', score: 3 },
+        { text: '记在心里，以后有机会再说。', score: 4 }
+      ] },
+      { scene: '一个长期关系需要你短期多付出一点，但回报不确定。你会怎么判断？', d: 2, options: [
+        { text: '只要是熟人就先帮，别算太清。', score: 2 },
+        { text: '看对方是否值得长期投入，以及这次付出有没有边界。', score: 5 },
+        { text: '只看眼前有没有好处，没有就不做。', score: 1 },
+        { text: '先做一小步，验证对方是否也愿意回馈。', score: 4 }
+      ] },
+      { scene: '别人帮了你一次，你暂时没有办法回报。你会怎么处理？', d: 2, options: [
+        { text: '一直内疚，之后尽量躲着对方。', score: 1 },
+        { text: '真诚感谢，说明以后有机会一定补上。', score: 5 },
+        { text: '马上硬送东西，把人情还清。', score: 3 },
+        { text: '觉得对方既然帮了，就不用想太多。', score: 2 }
+      ] },
+      { scene: '别人想从你这里套一个关键信息，但你还没判断清楚局势。你会怎么回？', d: 2, options: [
+        { text: '先不急着表态，用模糊但礼貌的话留出判断空间。', score: 5 },
+        { text: '直接全说，显得坦诚。', score: 1 },
+        { text: '反问对方为什么想知道。', score: 4 },
+        { text: '立刻拒绝回答，让对方知道别打听。', score: 3 }
+      ] },
+      { scene: '一个项目里人很多、利益也复杂，你想找到自己的位置。你会先做什么？', d: 2, options: [
+        { text: '先把活干好，位置自然会有。', score: 3 },
+        { text: '看清关键资源、决策人和自己能提供的不可替代价值。', score: 5 },
+        { text: '跟最强的人站在一起。', score: 2 },
+        { text: '不参与太深，免得惹麻烦。', score: 1 }
+      ] },
+      { scene: '你被当众批评，里面有些话并不公平。你会怎么反应？', d: 3, options: [
+        { text: '当场反驳，不然别人会以为我默认。', score: 3 },
+        { text: '先承接能改的部分，事后单独澄清不公平的点。', score: 5 },
+        { text: '沉默忍着，回去越想越气。', score: 2 },
+        { text: '情绪上来，直接顶回去。', score: 1 }
+      ] },
+      { scene: '你今天心情很差，亲近的人又问了一句让你烦的话。你会怎么做？', d: 3, options: [
+        { text: '直接发火，谁让他这时候撞上来。', score: 1 },
+        { text: '先说明自己状态不好，晚点再聊。', score: 5 },
+        { text: '忍住不说，但脸色很难看。', score: 3 },
+        { text: '假装没事，继续硬聊。', score: 2 }
+      ] },
+      { scene: '争论中你已经很生气，很想说一句狠话压住对方。你会怎么处理？', d: 3, options: [
+        { text: '先停三秒，只说事实和需求，不做人身攻击。', score: 5 },
+        { text: '说出来，气势不能输。', score: 1 },
+        { text: '冷笑几句，让对方知道我不爽。', score: 2 },
+        { text: '先暂停沟通，等能好好说再继续。', score: 4 }
+      ] },
+      { scene: '朋友情绪很崩溃，一直把负能量倒给你，你也被带得很难受。你会怎么做？', d: 3, options: [
+        { text: '陪到底，朋友难受我不能走。', score: 2 },
+        { text: '先接住情绪，再说明自己能陪到几点。', score: 5 },
+        { text: '直接讲道理，让他别想太多。', score: 3 },
+        { text: '以后少理他，太消耗了。', score: 1 }
+      ] },
+      { scene: '有人故意用阴阳怪气的话挑衅你，旁边还有人看着。你会怎么接？', d: 3, options: [
+        { text: '顺着对方情绪吵回去。', score: 1 },
+        { text: '用一句轻描淡写的话化开，不把场面交给他。', score: 5 },
+        { text: '马上解释自己不是那个意思。', score: 3 },
+        { text: '忍着不说，但心里记仇。', score: 2 }
+      ] },
+      { scene: '你临时被刺激到，很想马上做一个重要决定。你会怎么办？', d: 3, options: [
+        { text: '趁情绪最强的时候立刻决定。', score: 1 },
+        { text: '先把决定延后到明天，再看是否还想这样做。', score: 5 },
+        { text: '找一个支持我的人立刻确认。', score: 2 },
+        { text: '先写下想法和后果，过一小时再判断。', score: 4 }
+      ] },
+      { scene: '你察觉自己最近很容易烦躁，但事情还得继续推进。你会怎么处理？', d: 3, options: [
+        { text: '不管情绪，硬扛过去。', score: 2 },
+        { text: '先找出最消耗自己的来源，减少不必要刺激。', score: 5 },
+        { text: '找人吐槽一通，发泄完就好。', score: 3 },
+        { text: '觉得自己就是状态差，等它自然过去。', score: 1 }
+      ] },
+      { scene: '高压任务突然压下来，你脑子一乱，开始不知道先做什么。你会怎么做？', d: 3, options: [
+        { text: '先列出最急、最重要、最能止损的三件事。', score: 5 },
+        { text: '先随便做一个，动起来再说。', score: 3 },
+        { text: '越想越慌，先刷手机缓一缓。', score: 1 },
+        { text: '找人帮我判断优先级。', score: 4 }
+      ] },
+      { scene: '为了不让场面难看，你暂时咽下了委屈。之后你会怎么处理？', d: 3, options: [
+        { text: '算了，忍都忍了，别再提。', score: 1 },
+        { text: '等场面过去，单独把边界和事实说清楚。', score: 5 },
+        { text: '找朋友吐槽，让自己舒服一点。', score: 2 },
+        { text: '下次找机会让对方也难受一下。', score: 1 }
+      ] },
+      { scene: '小范围聚会有人说错话，气氛一下尴尬起来。你会怎么圆场？', d: 3, options: [
+        { text: '用轻松话题转一下，但不拿任何人开涮。', score: 5 },
+        { text: '开个更狠的玩笑，把大家逗笑。', score: 2 },
+        { text: '假装没听见，让气氛自己过去。', score: 3 },
+        { text: '直接指出他说错了，避免继续尴尬。', score: 4 }
+      ] }
+    ];
+    const SCRIPTS = [
+      { tag: '职场·批评', q: '当领导说：“这点小事都做不好？”', a: '❌ 错误：“对不起，我下次注意。”（太卑微）<br>✅ 话术：“领导，这个确实是我疏忽了。主要卡在XX环节，我现在马上调整方案，下班前给您新版本。”（剥离情绪，只谈解决方案）' },
+      { tag: '社交·拒绝', q: '朋友借钱：“兄弟，手头紧，借我5000周转下？”', a: '❌ 错误：“我也没钱啊。”（伤感情）<br>✅ 话术：“真不巧，我手头正好有笔理财这几天扣款，现在现金流动资金就几百块，你要是急用吃饭，我先转你200？”（以小钱挡大钱）' },
+      { tag: '聚会·插话', q: '大家聊得火热，完全插不进嘴', a: '❌ 错误：硬生生打断或在一旁玩手机。<br>✅ 话术：看着正在说话的人，点头，等他停顿瞬间：“哎这对，之前我也听过类似的……”（顺着对方的话题接，不要另起炉灶）' },
+      { tag: '亲戚·催婚', q: '七大姑八大姨：“怎么还不找对象？眼光别太高”', a: '❌ 错误：“不用你管。”<br>✅ 话术：“正看着呢，但这事儿得讲缘分，姑姑您人脉广，有合适的优质股记得推给我呀。”（把球踢回去，反向利用资源）' },
+      { tag: '职场·甩锅', q: '同事：“这个原本不是我的事，是你没配合好”', a: '❌ 错误：“凭什么怪我？”<br>✅ 话术：“先别急着分责任，咱们先把问题解决了。按照流程，这个环节确实需要你那边确认，我们一起来复盘一下邮件记录？”（用事实说话）' },
+      { tag: '领导·画饼', q: '领导：“好好干，明年给你升职加薪”', a: '❌ 错误：“谢谢老板。”（傻傻信了）<br>✅ 话术：“谢谢领导栽培！为了达到这个目标，您觉得我目前在哪个具体数据上还需要重点突破一下？”（把虚饼变成具体的KPI考核指标）' },
+      { tag: '朋友·请客', q: '总是你买单，想让对方付钱', a: '❌ 错误：“这次你付吧。”（尴尬）<br>✅ 话术：（结账时）“哎呀，我手机正好没电／限额了，你先垫一下，回去我转你。”（给对方一个必须付钱的台阶，回去别主动转）' },
+      { tag: '异性·试探', q: '对方：“你对谁都这么好吗？”', a: '❌ 错误：“不是，只对你好。”（太舔）<br>✅ 话术：“那得看对谁了，对值得的人，我才这么好。”（推拉技巧，既不承认也不否认，制造暧昧）' },
+      { tag: '面试·谈薪', q: 'HR：“你期望薪资多少？”', a: '❌ 错误：“按公司规定就行。”<br>✅ 话术：“基于我对该岗位的市场调研和我的能力匹配度，我期望在XX-XX之间。当然，我更看重公司的发展平台。”' },
+      { tag: '尴尬·冷场', q: '两个人突然没话说了', a: '❌ 错误：找借口离开。<br>✅ 话术：“说起来，最近XX事儿闹得挺大，你关注了吗？”（启用万能备用话题）' },
+      { tag: '请假·理由', q: '想请假面试，怎么跟老板说？', a: '❌ 错误：“家里有事。”（太假）<br>✅ 话术：“老板，最近身体有点不舒服，约了明天早上的牙医复诊，处理完我就回来，项目的事我已经跟XX交接好了。”' },
+      { tag: '拒绝·劝酒', q: '领导：“不喝就是看不起我！”', a: '❌ 错误：“我真不能喝。”<br>✅ 话术：“领导，我是真想陪您喝个痛快，但这几天吃头孢呢，医生说喝了要命。我以茶代酒，给您赔个不是！”（不可抗力）' },
+      { tag: '拒绝·加班', q: '周五临下班被塞非紧急任务', a: '❌ 错误：“我有事要先走。”<br>✅ 话术：“老板，我手头这个紧急项目今晚必须得核对完，您那个事儿如果不急，我明天一早优先处理行吗？”（交换优先级）' },
+      { tag: '被夸·回应', q: '别人夸你：“你今天真好看”', a: '❌ 错误：“哪里哪里。”<br>✅ 话术：“谢谢！被你这么一夸，我感觉今天心情都变好了。”（接受并回馈情绪）' },
+      { tag: '借钱·催还', q: '朋友借钱很久不还', a: '❌ 错误：“什么时候还钱？”<br>✅ 话术：“兄弟，我最近手头有点紧，上次借你的那笔钱，你看这周方便周转回来吗？正好我要交房租了。”（给对方正当理由）' },
+      { tag: '微信·结束', q: '想结束聊天，对方还在说', a: '❌ 错误：不回消息。<br>✅ 话术：“哎呀，我得去开个会／洗个澡，咱们回头聊！”（制造物理中断）' },
+      { tag: '反击·阴阳', q: '同事：“哟，大红人真忙啊”', a: '❌ 错误：生气怼回去。<br>✅ 话术：“没办法，为了生活嘛，哪像你效率这么高。”（捧杀，让他没法接）' },
+      { tag: '求助·大佬', q: '想请教前辈问题', a: '❌ 错误：“在吗？”<br>✅ 话术：“前辈，最近我在研究XX，遇到个瓶颈，知道您是这方面的专家，想耽误您5分钟请教一下，不知您何时方便？”（戴高帽＋明确时间）' },
+      { tag: '恋爱·废物', q: '对象问：“我在干嘛？”', a: '❌ 错误：“在想你。”<br>✅ 话术：“我在想，如果现在你在我身边就好了。”（营造画面感）' },
+      { tag: '砍价·策略', q: '买东西觉得贵', a: '❌ 错误：“太贵了，便宜点。”<br>✅ 话术：“老板，我是诚心买，这个价格我确实有点超预算，如果能XX元我就直接拿了，您看行吗？”（给底价＋成交诚意）' },
+      { tag: '道歉·迟到', q: '开会迟到了', a: '❌ 错误：“堵车了。”<br>✅ 话术：“不好意思大家，我时间预估失误，耽误大家时间了。我们直接开始吧。”（承认错误＋快速翻篇）' },
+      { tag: '安慰·失恋', q: '朋友失恋哭诉', a: '❌ 错误：“别难过，下一个更好。”<br>✅ 话术：“我知道你现在很难受，想哭就哭出来吧，我陪着你。今晚想吃点什么？”（共情＋陪伴）' },
+      { tag: '拒绝·推销', q: '柜员推销办卡', a: '❌ 错误：“不需要。”<br>✅ 话术：“谢谢介绍，但我赶时间，下次有需要我直接找你。”（温和坚定）' },
+      { tag: '被问·隐私', q: '“你一个月赚多少？”', a: '❌ 错误：“关你什么事。”<br>✅ 话术：“嗨，就是个辛苦钱，够养活自己罢了，哪比得上你啊。”（模糊重点＋反夸）' },
+      { tag: '初次·见面', q: '不知道说什么', a: '❌ 错误：查户口式提问。<br>✅ 话术：“你这个配饰挺特别的，有什么故事吗？”（从细节切入）' },
+      { tag: '回应·抱怨', q: '伴侣抱怨工作累', a: '❌ 错误：“别干了。”<br>✅ 话术：“亲爱的辛苦了，听起来那个人确实很过分。回来给你捏捏肩。”（统一战线＋情绪价值）' },
+      { tag: '群聊·红包', q: '抢了老板红包', a: '❌ 错误：只抢不说话。<br>✅ 话术：“谢谢老板！老板大气，祝公司业绩长虹！”（复读机也要有感情）' },
+      { tag: '饭局·点菜', q: '领导：“你来点吧”', a: '❌ 错误：“随便。”<br>✅ 话术：“好嘞，我知道陈总喜欢吃辣，李总喜欢清淡，我看着搭配几个特色菜，大家看行吗？”（照顾周全）' },
+      { tag: '离职·原因', q: '面试问：“为什么离职？”', a: '❌ 错误：“前公司太坑。”<br>✅ 话术：“前公司很好，但我目前的职业规划是往XX方向发展，贵公司的XX业务非常吸引我。”（追求未来）' },
+      { tag: '最后·结尾', q: '面试最后：“你有什么想问的？”', a: '❌ 错误：“没问题。”<br>✅ 话术：“我想了解一下，在这个岗位上，优秀员工的一天通常是怎么度过的？”（展现上进心）' }
+    ];
+    const DIMS = [
+      { name: '人情洞察', short: '看懂话外音、场面关系和真实意图', low: '容易把客套当承诺，把试探当真心，事后才反应过来。', mid: '能读懂大多数暗示，但关键时刻会因为怕想太多而放过信号。', high: '能快速判断谁在主导场面，也能看见别人没说出口的需求。', action: '每天复盘一个对话，写下对方明说了什么、没说但想要什么。', risk: '信息差' },
+      { name: '边界分寸', short: '知道什么该答应、什么该拒绝、什么话不能说', low: '容易被一句“帮个忙”牵着走，答应后才发现自己被加码。', mid: '知道要守边界，但面对熟人和上级时容易临时松口。', high: '能体面拒绝，也能让对方知道你的边界不是情绪化反应。', action: '练一句固定表达：这件事我能做到这里，剩下部分需要你确认。', risk: '被消耗' },
+      { name: '利益博弈', short: '能谈资源、谈交换、谈自己的价值', low: '一谈钱和利益就不好意思，常常把自己的贡献说得很小。', mid: '知道要争取，但容易等别人主动看见，缺少明确开口。', high: '能把资源、功劳和机会放到桌面上谈，不靠委屈换关系。', action: '每周整理一次贡献清单，用事实说清自己做了什么、带来什么结果。', risk: '吃暗亏' },
+      { name: '情绪控制', short: '冲突里稳住自己，不被对方节奏带跑', low: '遇到压力容易沉默、逃避或事后爆发，很难当场处理。', mid: '表面能稳住，但很多情绪是压下去的，容易累积成委屈。', high: '能把情绪和事情分开，先解决问题，再决定关系怎么处理。', action: '冲突时先说事实，再说需求，不急着解释自己是不是委屈。', risk: '失控或内耗' }
+    ];
+    const FREE_CONTENT = {
+      low: {
+        summary: '<strong>💬 综合评价：</strong>您的社交表现偏向被动，在人际博弈中容易处于下风，个人价值常被忽视。但这不是终点——意识到问题本身就是成长的开始。',
+        detail: '您的社交雷达灵敏度较低，常因听不懂“潜台词”而错失关键信息。在多人社交场合中，您倾向于退缩和顺从，导致个人存在感薄弱，实际影响力严重低于自身真实价值。',
+        behavior: '遇到冲突首选逃避；不敢拒绝不合理请求，习惯委屈自己；在饭局或重要会议中常感到手足无措，事后懊悔没能表达自己。',
+        improve: '练习“温和而坚定”的表达。从小事开始，每周刻意练习3次说“不”。说话放慢语速，减少“那个、额”等语气词，先从外表气场入手，行为改变会带动心态转变。'
+      },
+      mid: {
+        summary: '<strong>💬 综合评价：</strong>您具备基本的社交常识，也能维持表面和谐，但在面对利益冲突或高压场景时，往往因为顾虑太多而错失良机。',
+        detail: '您是团队中的润滑剂，大家都觉得您“人不错”，但这恰恰是危险信号。因为“好人”往往意味着“好欺负”。您能听懂暗示，却常常选择不说破，用沉默换来虚假的和平。',
+        behavior: '能听懂暗示但不敢拆穿；在意他人评价多于实际利益；习惯性妥协以维持关系，在关键时刻容易退让，事后容易产生委屈感。',
+        improve: '练习“温和而坚定”的表达。在涉及核心利益时，必须展现出您的獠牙。记住：适度的强硬不会损害关系，反而会让人更加尊重你。'
+      },
+      high: {
+        summary: '<strong>💬 综合评价：</strong>您是天生的社交高手，深谙人性弱点和潜规则，能在复杂的人际关系中游刃有余，将社交转化为可利用的资源。',
+        detail: '您对人性和局势的洞察力极强，能迅速识别谁是关键人物、谁在打什么牌。社交对您来说不是负担，而是资源置换和价值放大的工具，您善于在不动声色中完成布局。',
+        behavior: '情绪控制力极强，几乎不轻易暴露真实想法；善于借势借力；懂得在合适时机展示软弱来获取信任，并能在复杂局势中始终找到对自己有利的位置。',
+        improve: '警惕过度精明引发的反感。适度暴露无伤大雅的小缺点，增加亲和力，降低他人戒心。在达成目的的同时，要让对方觉得是“他赢了”，这才是最高段位的博弈。'
+      }
+    };
+    const TIER = {
+      low: {
+        detail: `
+          <div class="detailed-text">
+            <div class="dt-section">
+              <span class="dt-label">【深度社会化拆解】</span>
+              您的评估结果揭示了一个根深蒂固的社交模式：<strong>习惯性自我缩减</strong>。这并非个人缺陷，而是长期以来在某种环境下形成的自我保护机制——通过“不出头、不冒犯”来维持表面安全感。然而这种模式在成人世界里会严重反噬。<br><br>
+              您的社交雷达灵敏度偏低，常因错过关键“潜台词”而在信息获取上落后于人。典型表现是：当别人说“你来决定吧”时，您真的以为对方在尊重您，却不知那往往是一种推卸责任的话术；当领导说“辛苦了”时，您感到被认可，却不知这可能只是一句例行客套。长期信息解读偏差，会让您在职场和社交中持续做出代价高昂的误判。<br><br>
+              更深层的问题在于：<strong>您的存在感由他人定义，而非由自己主导</strong>。在多人场合，您习惯等待别人开口，倾向于附和而非引领，这直接导致您的个人价值被严重低估——不是因为您能力不足，而是因为您从未让别人有机会看到您的价值。
+            </div>
+            <div class="dt-section">
+              <span class="dt-label">【四维短板精准定位】</span>
+              根据您的答题数据，四个维度均存在明显短板。<strong>洞察维度</strong>：您对他人情绪和意图的敏感度不足，经常在事后才意识到“原来他是那个意思”，错过了最佳回应时机。<strong>边界维度</strong>：您的个人边界模糊，很难对不合理的要求说“不”，习惯用委屈自己来换取暂时的关系和谐。<strong>利益维度</strong>：您对谈利益、谈钱有天然的回避习惯，觉得“开口要东西”很难为情，这直接导致您在分配环节总是吃亏。<strong>情绪维度</strong>：面对冲突时，您的第一反应是逃避或沉默，而不是冷静应对，长期压抑导致偶尔的情绪崩溃。
+            </div>
+            <div class="dt-section">
+              <span class="dt-label">【危险场景预警】</span>
+              以下三个高频场景对您的风险极高：① <strong>被当众指责时</strong>：您倾向于当场道歉认错，这会让攻击者更加肆无忌惮，形成“好欺负”的标签；② <strong>项目出问题需要担责时</strong>：因为您平时不善于留下“话语证据”，背锅的概率远高于他人；③ <strong>升职加薪机会来临时</strong>：您不主动争取，等待被看见，但在竞争激烈的环境里，沉默＝放弃。
+            </div>
+          </div>
+        `,
+        plan: `
+          <div class="improve-plan">
+            <span class="ip-head">🚀 针对性90天改造方案</span>
+            <div class="plan-step"><div class="plan-step-title">第一阶段（第1-30天）· 建立存在感</div>每天找一个小场合主动开口，哪怕只是在群里发一条有质量的回复，或在会议上提一个问题。目标不是说得多好，而是打破“沉默惯性”。刻意练习开场白：“我有个想法……”“我觉得……”这类主语是“我”的句式，让身边的人开始认识到你是有想法的人。</div>
+            <div class="plan-step"><div class="plan-step-title">第二阶段（第31-60天）· 建立边界感</div>练习说“不”的万能句式：<em>“这个忙我帮不了，但你可以试试XX方案。”</em>——拒绝的同时给出替代方案，既维护了关系，又守住了边界。记住：你的时间和精力是稀缺资源，不是所有人都值得你免费付出。每次成功拒绝一次无理要求，都是在给自己的价值感加分。</div>
+            <div class="plan-step"><div class="plan-step-title">第三阶段（第61-90天）· 建立利益意识</div>开始在小事上练习“等价交换”思维。帮了朋友的忙，可以顺势说：“下次你帮我留意一下XX机会哈。”谈薪资时，用数据说话而不是感情牌，列出自己的具体贡献清单，让价值可视化。谈利益不等于贪婪，而是对自己价值的尊重，也是让对方认真对待你的最有效方式。</div>
+            <div class="plan-tip">💡 关键心法：不要试图一夜变成“社交达人”。真正的改变是让别人开始认真对待你说的每一句话，三个月后你会发现周围人对你的态度已经悄悄发生了变化。</div>
+          </div>
+        `
+      },
+      mid: {
+        detail: `
+          <div class="detailed-text">
+            <div class="dt-section">
+              <span class="dt-label">【深度社会化拆解】</span>
+              您的评估分数处于中间地带，这恰恰是最危险的位置。您不是不懂人情世故，您懂。您不是读不懂暗示，您能读懂。问题在于：<strong>您明明看懂了，却选择了不说破</strong>。您用“体谅别人”来包装自己的回避，用“顾全大局”来合理化自己的退让，久而久之，这变成了一种根深蒂固的行为模式。<br><br>
+              有一类处世模式叫“过度适应”——这类人在社交中极其在意他人感受，甚至会牺牲自身利益来维持关系的表面和谐。您很可能就是这种模式的典型。您的善意是真实的，但这种善意在职场和复杂人际关系中，往往会被他人视为“软柿子”信号，吸引来更多消耗你的请求。<br><br>
+              <strong>最核心的问题是：您把“被人喜欢”等同于了“拥有价值”</strong>。为了维持“好人缘”，您愿意接受不合理的任务分配；为了不破坏氛围，您在明显被占便宜时选择沉默；为了让对方满意，您经常过度承诺，然后透支自己去完成。这种模式短期内带来了良好的人际评价，但长期看，您正在为别人的舒适付出越来越高的代价，而这笔账迟早会以委屈或愤怒的形式被清算。
+            </div>
+            <div class="dt-section">
+              <span class="dt-label">【四维深度分析】</span>
+              <strong>洞察维度（中等偏上）：</strong>您对人际信号的感知能力较强，能读懂大多数暗示和潜台词，但您的洞察力经常被“不想多想”的习惯压住，导致即使看穿了，也不愿承认、不敢行动。<br><br>
+              <strong>边界维度（最大短板）：</strong>这是您最需要强化的维度。您的个人边界极为模糊，对“拒绝”有强烈阻力，总担心拒绝会破坏关系。一旦有人以感情为筹码施压，您几乎无法守住立场。这个弱点会被有心人反复利用。<br><br>
+              <strong>利益维度（严重回避）：</strong>您对“谈利益”有近乎本能的回避反应，觉得谈钱谈利益会破坏关系的纯粹性。但真相是：不懂谈利益的人，才是真正在破坏关系——因为积累的委屈迟早会以更激烈的方式爆发，到时候伤害更大。<br><br>
+              <strong>情绪维度（中等）：</strong>您的情绪控制力尚可，但这是压抑式控制，而非真正的情绪管理。您是把不满压进肚子里，而不是用技巧化解，长期下来会带来慢性消耗，偶尔出现不成比例的情绪崩溃。
+            </div>
+            <div class="dt-section">
+              <span class="dt-label">【职场高危警报】</span>
+              根据您当前的处世模式，以下三类场景请务必提高警觉：① <strong>“你最好说话”陷阱</strong>：每次讨论分工，总是因为你“好说话”而被分配最重的任务，却拿不到对应的功劳和认可；② <strong>隐形背锅机制</strong>：因为你不喜欢留书面记录、不爱发确认消息，出了问题往往找不到证据自证清白，天然成为背锅候选人；③ <strong>升职绕道现象</strong>：领导眼中你是“稳定器”，但稳定的人往往不会被优先提拔——提拔的通常是会主动争取、让领导感到有风险不提拔的人。
+            </div>
+          </div>
+        `,
+        plan: `
+          <div class="improve-plan">
+            <span class="ip-head">🚀 针对性90天跃迁方案</span>
+            <div class="plan-step"><div class="plan-step-title">第一步 · 重建利益意识（最优先）</div>从现在起，对所有付出的时间和资源进行“标价”。帮同事改PPT？值50元。周末接了工作电话？值100元。不是真的要收钱，而是训练自己的利益意识，让你开始认识到：<em>你的付出是有价值的，不是天经地义应该无偿贡献的</em>。这个认知一旦建立，你就会自然开始在意自己的资源是否被合理使用。</div>
+            <div class="plan-step"><div class="plan-step-title">第二步 · 练习强硬的艺术</div>强硬不是凶狠，而是“温柔地坚持”。万能公式：<em>“我理解你的需求，但这件事我这次真的无法配合，因为我有更优先的事情要处理。”</em>说完不再过度解释，不再连续道歉。反复用这个句式，直到身边的人开始调整对你的预期，不再把你当作随时可以支取的免费资源。</div>
+            <div class="plan-step"><div class="plan-step-title">第三步 · 主动管理上级预期</div>不要等着被看见，要主动制造被看见的机会。每周向领导发一条简短汇报：“本周推进了XX，下周计划做XX，有个问题想请您指一下方向。”展示勤奋、规划力、主动性，让领导心中把你从“可靠的执行者”升级为“有潜力的管理苗子”。</div>
+            <div class="plan-step"><div class="plan-step-title">第四步 · 建立话语证据习惯</div>任何重要的口头约定，24小时内用微信确认一遍：“刚才我们说好XX，我这边按这个方向推进，没问题的话您回复个‘好’就行。”这一个动作，成本几乎为零，但能让你在99%的推诿扯皮场景中立于不败之地。</div>
+          </div>
+        `
+      },
+      high: {
+        detail: `
+          <div class="detailed-text">
+            <div class="dt-section">
+              <span class="dt-label">【深度社会化拆解】</span>
+              恭喜您进入前20%的社会化成熟度区间。您的评估结果显示，您已经具备了相当成熟的社交认知体系：能读懂人心、会管理情绪、懂得利益博弈、清楚边界在哪里。但高分不等于完美，高分有高分的陷阱，而且这些陷阱往往比低分者的问题更难被自己察觉。<br><br>
+              您的核心优势在于<strong>信息不对称的利用能力</strong>——在大多数人还在搞清楚“这是什么情况”的时候，您已经在推演“这对我意味着什么机会”。这是极其稀缺的能力，是很多人学了十年也难以复制的本能，让您在大多数社交场合中保持领先。<br><br>
+              然而，这种能力如同一把双刃剑。当您的洞察力和掌控欲同时在线时，您身边的人——哪怕是能力不如您的人——也会本能地感知到“被算计”的气息。人类对“被操控”有天然的免疫和反抗机制。您越精明，周围人越会不自觉地对您保持警惕，甚至联合起来进行防御性抵制。<strong>这是高情商者最容易踩的坑：越厉害，越孤立</strong>。如果不加以调整，您的影响力会遇到一个明显的天花板。
+            </div>
+            <div class="dt-section">
+              <span class="dt-label">【四维精英级分析】</span>
+              <strong>洞察维度（顶尖）：</strong>您对场景信号的解读能力接近专业水准，能同时追踪多人的情绪变化和利益诉求，并迅速定位谁是关键决策者、谁在背后使力。这是您最强的武器，需要继续打磨，但更需要学会“藏”——让对方感觉到被理解，而不是被看穿。<br><br>
+              <strong>边界维度（优秀）：</strong>您的边界感清晰，知道什么该做什么不该做，也能体面地回绝无理要求。但您有时会用边界感给自己“特权化”——只坚守对自己有利的规则，这会让人感到双标，进而降低对您的信任度。<br><br>
+              <strong>利益维度（强势）：</strong>您对利益的嗅觉极为敏锐，但过于主导利益谈判，会让合作方产生“总是你赢”的疲惫感，进而影响长期关系的稳定性和深度。真正的高手懂得让对方感觉“这次我占了便宜”，从而心甘情愿地下次再来合作。<br><br>
+              <strong>情绪维度（高段位）：</strong>您的情绪控制力在人群中属于顶尖水平，能在高压下保持冷静，能在被激怒时延迟反应。但要警惕：长期高度压抑的情绪控制会造成“钢铁人设”，让亲近的人感到疏离，难以真正走近您。
+            </div>
+            <div class="dt-section">
+              <span class="dt-label">【高段位的天花板警告】</span>
+              您目前面临的不是能力问题，而是<strong>影响力天花板</strong>问题。以下三个信号说明您可能已经遇到了：① 您很少有真正意义上的“发小式”亲密朋友，大多数关系都带着某种功能属性，难以发展成无条件信任的深度连接；② 下属或同级对您敬畏多于亲近，愿意配合但不愿意交心，导致您很难获取真实反馈；③ 您偶尔会有一种独特的孤独感——不是没有人，而是没有能真正理解你、跟你玩到同一个层次的人。突破这个天花板，才能真正进入顶层圈层。
+            </div>
+          </div>
+        `,
+        plan: `
+          <div class="improve-plan">
+            <span class="ip-head">🚀 顶层突破：从“聪明”进化到“被信任”</span>
+            <div class="plan-step"><div class="plan-step-title">第一课 · 学会“刻意示弱”</div>每周在1-2个无关痛痒的小事上，主动暴露自己的困惑或不足。“这个我真没想明白，你帮我看看？”这句话的价值远超您的想象——它会让对方进入“被需要”的状态，对您产生更强的情感联结。强者的示弱，不是真的弱，而是最高级的社交投资，让别人觉得“他这么厉害都需要我，我很重要”。</div>
+            <div class="plan-step"><div class="plan-step-title">第二课 · 重新定义“赢”</div>在谈判和博弈中，最高段位的操作不是“我赢了”，而是“他觉得他赢了，但我拿到了我真正想要的”。主动在非核心利益上让步，用看得见的小利换取看不见的大利——在对方的人情账里积累“欠您人情”的感知，在关键节点一次性兑现，效果十倍于每次强硬争取。</div>
+            <div class="plan-step"><div class="plan-step-title">第三课 · 建立真实连接</div>刻意在每段重要关系中，投入至少一次“非功能性交流”——不谈工作，不谈利益，只是单纯关心对方的生活状态。一句“最近怎么样，不是工作那边，是你个人”，成本极低，但能把功能性关系升级为真实的信任关系，这是其他任何策略都替代不了的情感基础设施。</div>
+            <div class="plan-step"><div class="plan-step-title">第四课 · 圈层精准升级</div>在现有社交网络中，找出3-5个认知层级比您更高的人，专注深度维护。持续给他们提供有价值的信息或资源（不求即时回报），让自己成为他们心中“提到XX领域第一个想到的人”。一旦进入对方的核心信息圈，您的资源获取效率和机会密度会出现质的飞跃。</div>
+          </div>
+        `
+      }
+    };
+
+    const intro = $('intro');
+    const question = $('question');
+    const quizChrome = $('quizChrome');
+    const result = $('result');
+    const state = { index: 0, answers: Array(QUESTIONS.length).fill(null), scores: [], total: 0, tag: '', deepUnlocked: false, advanceTimer: 0 };
+
+    function toast(message) {
+      const el = $('toast');
+      el.textContent = message;
+      el.classList.add('show');
+      clearTimeout(el._timer);
+      el._timer = setTimeout(() => el.classList.remove('show'), 2000);
+    }
+
+    function escapeHtml(value) {
+      return String(value).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    }
+
+    function setChrome(on) {
+      quizChrome.classList.toggle('hidden', !on);
+    }
+
+    function showView(view) {
+      [intro, question, result].forEach((el) => el.classList.add('hidden'));
+      view.classList.remove('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function isUnlocked() {
+      try { return localStorage.getItem(STORAGE_KEY) === '1'; } catch (e) { return false; }
+    }
+
+    function readReport() {
+      try {
+        const r = JSON.parse(localStorage.getItem(REPORT_KEY) || 'null');
+        if (r && Array.isArray(r.answers) && r.answers.length === QUESTIONS.length) return r;
+      } catch (e) {}
+      return null;
+    }
+
+    function writeReport() {
+      try {
+        localStorage.setItem(REPORT_KEY, JSON.stringify({
+          answers: state.answers.slice(),
+          scores: state.scores.slice(),
+          total: state.total,
+          tag: state.tag,
+          createdAt: new Date().toISOString()
+        }));
+      } catch (e) {}
+    }
+
+    function paintHome() {
+      const hasReport = readReport() !== null;
+      $('lastReportBtn').style.display = hasReport ? 'block' : 'none';
+      $('retestIntroBtn').style.display = hasReport ? 'block' : 'none';
+    }
+
+    function unlock() {
+      const value = $('accessInput').value.trim();
+      if (value === ACCESS_CODE) {
+        try { localStorage.setItem(STORAGE_KEY, '1'); } catch (e) {}
+        $('accessGate').classList.add('hidden');
+        paintHome();
+        return;
+      }
+      const err = $('accessError');
+      err.classList.add('show');
+      setTimeout(() => err.classList.remove('show'), 1600);
+    }
+
+    function startTest() {
+      state.index = 0;
+      state.answers = Array(QUESTIONS.length).fill(null);
+      state.deepUnlocked = false;
+      setChrome(true);
+      showView(question);
+      renderQuestion();
+    }
+
+    function backToIntro() {
+      setChrome(false);
+      showView(intro);
+      paintHome();
+    }
+
+    function openLastReport() {
+      const r = readReport();
+      if (!r) {
+        toast('本机还没有已完成的报告，请先完成一次测试。');
+        return;
+      }
+      state.answers = r.answers.slice();
+      state.index = QUESTIONS.length - 1;
+      calcResult(true);
+    }
+
+    function renderQuestion() {
+      const i = state.index;
+      const q = QUESTIONS[i];
+      const dim = DIMS[q.d];
+      const pct = Math.round((i + 1) / QUESTIONS.length * 100);
+      $('progressText').textContent = `${i + 1} / ${QUESTIONS.length}`;
+      $('progressBar').style.width = `${pct}%`;
+      $('progressPct').textContent = `${pct}%`;
+      $('stageLabel').textContent = `📌 ${dim.name}`;
+      $('chapterName').textContent = `${dim.name} · 第 ${i + 1} 题`;
+      $('questionText').textContent = `${i + 1}. ${q.scene}`;
+      const letters = ['A', 'B', 'C', 'D'];
+      $('answerList').innerHTML = q.options.map((o, j) => {
+        const selected = state.answers[i] === j ? 'selected' : '';
+        return `<button class="choice ${selected}" data-i="${j}"><span class="letter">${letters[j]}</span><span><strong>${escapeHtml(o.text)}</strong></span></button>`;
+      }).join('');
+      document.querySelectorAll('#answerList .choice').forEach((btn) => {
+        btn.onclick = () => selectAnswer(Number(btn.dataset.i));
+      });
+      $('prevBtn').disabled = i === 0;
+      $('nextBtn').disabled = state.answers[i] === null;
+      $('nextBtn').textContent = i === QUESTIONS.length - 1 ? '生成报告' : '下一题';
+      $('autoHint').textContent = state.answers[i] === null ? '选择后自动进入下一题' : '本题已选择，可重新选择';
+      $('autoHint').classList.toggle('active', state.answers[i] !== null);
+    }
+
+    function selectAnswer(index) {
+      state.answers[state.index] = index;
+      const isLast = state.index === QUESTIONS.length - 1;
+      $('autoHint').textContent = isLast ? '已选择，正在生成报告…' : '已选择，正在进入下一题…';
+      $('autoHint').classList.add('active');
+      renderQuestion();
+      clearTimeout(state.advanceTimer);
+      state.advanceTimer = setTimeout(() => {
+        if (isLast) calcResult(false);
+        else { state.index++; renderQuestion(); }
+      }, 420);
+    }
+
+    function nextQ() {
+      if (state.answers[state.index] === null) {
+        toast('请先选择一个选项');
+        return;
+      }
+      if (state.index < QUESTIONS.length - 1) {
+        state.index++;
+        renderQuestion();
+      } else {
+        calcResult(false);
+      }
+    }
+
+    function prevQ() {
+      if (state.index > 0) {
+        state.index--;
+        renderQuestion();
+      }
+    }
+
+    function getScoreLevel(score) {
+      if (score < 60) return '需要补课';
+      if (score < 80) return '能用但不稳';
+      return '优势项';
+    }
+
+    function getScoreText(meta, score) {
+      if (score < 60) return meta.low;
+      if (score < 80) return meta.mid;
+      return meta.high;
+    }
+
+    function createRankedDimensions(scores) {
+      return scores.map((score, index) => {
+        const meta = DIMS[index];
+        return {
+          index,
+          score,
+          name: meta.name,
+          short: meta.short,
+          text: getScoreText(meta, score),
+          action: meta.action,
+          risk: meta.risk,
+          level: getScoreLevel(score)
+        };
+      }).sort((a, b) => a.score - b.score);
+    }
+
+    function createSocialDecisionMap(scores, tag) {
+      const ranked = createRankedDimensions(scores);
+      const weakest = ranked[0];
+      const strongest = ranked[ranked.length - 1];
+      const secondWeakest = ranked[1];
+      return `
+        <div class="decision-map-item">
+          <strong>🔎 你最先被看见的能力</strong>
+          <b>${strongest.name} · ${strongest.score}分</b>
+          <p>${strongest.text}</p>
+        </div>
+        <div class="decision-map-item">
+          <strong>⚠️ 你最容易吃亏的环节</strong>
+          <b>${weakest.name} · ${weakest.score}分</b>
+          <p>${weakest.risk}。先把这一个环节稳住，改变会最快被自己感受到。</p>
+        </div>
+        <div class="decision-map-item">
+          <strong>🧭 这一周的行动主线</strong>
+          <b>${tag}</b>
+          <p>先练 ${weakest.name}，再用 ${strongest.name} 做支撑；${secondWeakest.name} 放到第二周处理。</p>
+        </div>
+      `;
+    }
+
+    function createFreeSceneHtml(weakest, strongest, tag) {
+      const scenes = [
+        { title: '场景一：别人临时加任务', text: `您最容易在这里暴露 ${weakest.name} 的短板。先不要急着答应，先问清“什么时候要、标准是什么、谁来确认”。这一步能立刻减少被加码。` },
+        { title: '场景二：被质疑或被甩锅', text: `先调用您的 ${strongest.name}，把事实摆出来，再补一句边界：“我能配合复盘，但责任要按流程确认。”不要用情绪证明自己没错。` },
+        { title: '场景三：想被看见又不好意思表现', text: `${tag} 最需要练的是把价值说出来。每周至少主动汇报一次“我做了什么、推进到哪、需要什么支持”，让别人有机会看见您。` }
+      ];
+      return scenes.map((scene) => `
+        <div class="scene-item">
+          <strong>${scene.title}</strong>
+          ${scene.text}
+        </div>
+      `).join('');
+    }
+
+    function createFreeStarterPlan(weakest, strongest) {
+      return `第1天只练停顿，任何让您不舒服的请求都先回复“我看一下安排再确认”；第2天练确认，把口头约定补成文字；第3天练表达，用您的优势 ${strongest.name} 支撑短板 ${weakest.name}，说清“我能做什么、不能做什么、什么时候给结果”。`;
+    }
+
+    function createFreeValuePack(scores, total, tag) {
+      const ranked = createRankedDimensions(scores);
+      const weakest = ranked[0];
+      const strongest = ranked[ranked.length - 1];
+      const dimensionCards = ranked.map((item) => `
+        <div class="mini-card">
+          <b>${item.name} · ${item.score}分</b>
+          <span>${item.level}</span>
+          <p>${item.text}</p>
+        </div>
+      `).join('');
+      const sceneHtml = createFreeSceneHtml(weakest, strongest, tag);
+      const starterHtml = createFreeStarterPlan(weakest, strongest);
+      return `
+        <div class="free-pack-head">
+          <div>
+            <strong>免费完整结果包 · 已生成</strong>
+            <span>不是只给一个分数，而是把您当前最强、最弱和最该先练的场景拆出来。</span>
+          </div>
+          <div class="free-badge">已解锁</div>
+        </div>
+        <div class="mini-grid">${dimensionCards}</div>
+        <div class="action-strip">
+          <strong>您的第一优先级：</strong>先补 <b>${weakest.name}</b>。您当前总分 ${total}，画像标签是 <b>${tag}</b>。最适合的练法不是猛学一堆话术，而是先把“${weakest.risk}”这个高频坑稳住，再用您的优势项 <b>${strongest.name}</b> 做支撑。
+        </div>
+        <div class="scene-list">${sceneHtml}</div>
+        <div class="action-strip">
+          <strong>3天小训练：</strong>${starterHtml}
+        </div>
+      `;
+    }
+
+    function createPremiumWeeks(weakest, secondWeakest, strongest) {
+      const weeks = [
+        { title: '第1周 · 先止损', text: `目标是减少被消耗。每天找一个小场景练 ${weakest.name}：不急着答应、不急着解释、不急着道歉，先把事实和边界说清。` },
+        { title: '第2周 · 建立存在感', text: `用您的优势项 ${strongest.name} 主动发一次观点、一次汇报、一次确认消息。不是为了表现，而是让别人知道您不是默认可忽略的人。` },
+        { title: '第3周 · 练第二短板', text: `把 ${secondWeakest.name} 放进真实关系里练。每天只做一个动作：确认需求、拒绝加码、谈清交换、稳定情绪，四选一即可。` },
+        { title: '第4周 · 固化新模式', text: '整理本月最有效的 3 句话术，固定成您的个人表达模板。以后遇到相似场景，不再临场慌，而是直接套用并微调。' }
+      ];
+      return weeks.map((item) => `
+        <div class="premium-list-item">
+          <b>${item.title}</b><br>${item.text}
+        </div>
+      `).join('');
+    }
+
+    function createPremiumSceneItems(weakest, strongest) {
+      const items = [
+        { title: '领导临时安排', text: '先确认优先级：“我现在手上有A和B，如果这个更急，我先排它；您看哪个优先？”这句话能保护您的时间，也显得您靠谱。' },
+        { title: '同事甩锅', text: `先别争情绪，直接拉证据：“我们先按记录复盘一下，当时这个节点是谁确认的？”用 ${strongest.name} 稳住局面。` },
+        { title: '朋友频繁求助', text: `如果 ${weakest.name} 是短板，最容易在这里被透支。建议句式：“这次我只能帮到这里，后面你需要自己处理。”` },
+        { title: '饭局插不上话', text: '不用硬开新话题，先接别人上一句话：“你刚说的这个我有点同感，尤其是……”先顺势，再补自己的观点。' },
+        { title: '被夸或被关注', text: '不要立刻否认。直接接住：“谢谢，你这么说我还挺开心的。”接住正向反馈，是建立存在感的低成本动作。' },
+        { title: '谈钱谈利益', text: '把情绪拿掉，用事实开口：“这件事我投入了X小时，产出了Y结果，后续资源／费用我们按这个标准确认。”' }
+      ];
+      return items.map((item) => `
+        <div class="premium-list-item">
+          <b>${item.title}</b><br>${item.text}
+        </div>
+      `).join('');
+    }
+
+    function createPaidScriptMatrix(weakest, strongest) {
+      const rows = [
+        { scene: '别人临时把事情丢给您', normal: '我现在不能马上答应，我要先看一下手上的安排。', mature: '这件事我可以评估一下，但需要先确认截止时间、交付标准和优先级。', expert: '我能接其中A部分，B部分需要你那边先补齐资料。我们现在把边界确认清楚，后面推进会更快。' },
+        { scene: '别人用关系压您', normal: '我理解你着急，但我这次确实做不到。', mature: '我愿意帮你想办法，但不能替你承担结果。这个边界我们先说清楚。', expert: '如果只是建议，我可以给；如果需要我负责，就要同步资源和决策权。否则这件事对双方都不稳。' },
+        { scene: '谈功劳、谈资源、谈钱', normal: '这部分我也参与了，后面希望能一起算进去。', mature: '我这边主要完成了A和B，产生的结果是C。后续分工和回报，我们按实际贡献确认。', expert: '为了让合作长期稳定，我建议把贡献、资源、回报提前写清楚。这样大家都安心，也少误会。' },
+        { scene: '冲突现场快要失控', normal: '我们先别急着定责任，先把事实捋一遍。', mature: '我先说我看到的事实，不评价人。节点是A，记录是B，现在最优先是解决C。', expert: '这件事可以复盘，但不适合在情绪最高的时候判责。我们先定解决方案，再回头看流程漏洞。' }
+      ];
+      return rows.map((item) => `
+        <div class="premium-matrix-row">
+          <b>${item.scene}</b><br>
+          <span class="tone-tag">能用</span>${item.normal}<br>
+          <span class="tone-tag">成熟</span>${item.mature}<br>
+          <span class="tone-tag">高手</span>${item.expert}<br>
+          <b>使用提醒：</b>您的短板是 ${weakest.name}，开口前先稳住“${weakest.risk}”；优势是 ${strongest.name}，用它把语气撑稳。
+        </div>
+      `).join('');
+    }
+
+    function createPaidRiskList(weakest, secondWeakest) {
+      const items = [
+        { title: '红灯信号一：对方催您立刻答应', text: `越是催您马上决定，越要停。您的 ${weakest.name} 最容易在“来不及想”的时候掉线。固定回复：“我确认后给你答复。”` },
+        { title: '红灯信号二：对方只谈感情不谈边界', text: '凡是只说“咱俩谁跟谁”，却不说责任、成本、截止时间的请求，都要补一句：“那我们把具体怎么做说清楚。”' },
+        { title: '红灯信号三：您开始替别人找理由', text: `一旦您心里出现“他也不容易”，先检查自己是不是又在牺牲 ${secondWeakest.name}。同情可以有，但不能替代规则。` },
+        { title: '红灯信号四：做完以后没人知道是您做的', text: '重要事情必须留痕。不是为了邀功，而是为了让责任、贡献和后续资源能对得上。' }
+      ];
+      return items.map((item) => `
+        <div class="premium-list-item">
+          <b>${item.title}</b><br>${item.text}
+        </div>
+      `).join('');
+    }
+
+    function createPaidPersonalManual(weakest, strongest, tag) {
+      return `您的当前类型是 ${tag}。别人跟您相处时，最容易误判您“好说话”或“能扛事”，但您的真实需求不是被不断加码，而是被清楚尊重。您最该建立的外在人设是：好沟通，但有边界；愿意配合，但要规则；情绪稳定，但不是免费承压。遇到复杂关系时，先用 ${strongest.name} 看局，再保护 ${weakest.name}，不要急着证明自己善良、靠谱、懂事。`;
+    }
+
+    function createPaidRetestTable(weakest, strongest) {
+      return `
+        <thead>
+          <tr><th>复测项</th><th>7天后检查</th><th>30天后目标</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>${weakest.name}</td><td>至少拒绝或延迟答应1次不合理请求</td><td>能主动说清边界，不再事后委屈</td></tr>
+          <tr><td>${strongest.name}</td><td>用优势完成1次主动表达</td><td>把优势变成稳定可复用的话术</td></tr>
+          <tr><td>关系消耗</td><td>少做1件“明明不想做却硬扛”的事</td><td>把高消耗关系分级处理</td></tr>
+          <tr><td>价值可见度</td><td>发出1次清晰汇报或确认消息</td><td>让关键人物知道您的贡献</td></tr>
+        </tbody>
+      `;
+    }
+
+    function createReviewTemplate(weakest, strongest, tag, total) {
+      return `今日复盘：
+1. 今天最消耗我的场景是什么？
+2. 我当时有没有因为 ${weakest.name} 不稳而吃亏？
+3. 我有没有用到自己的优势 ${strongest.name}？
+4. 如果重来一次，我可以换成哪句话？
+5. 明天只练一个动作：先停3秒，再说清边界。
+
+当前标签：${tag}
+当前总分：${total}
+本月目标：让最低维度 ${weakest.name} 至少提升一个可感知的小台阶。`;
+    }
+
+    function createPaidBonusContent(scores, total, tag) {
+      const ranked = createRankedDimensions(scores);
+      const weakest = ranked[0];
+      const secondWeakest = ranked[1];
+      const strongest = ranked[ranked.length - 1];
+      const prescription = ranked.map((item) => `
+        <div class="premium-card">
+          <strong>${item.name}</strong>
+          <em>${item.score}分 · ${item.level}</em>
+          <p><b>现状：</b>${item.text}</p>
+          <p><b>训练：</b>${item.action}</p>
+        </div>
+      `).join('');
+      const weeks = createPremiumWeeks(weakest, secondWeakest, strongest);
+      const scenes = createPremiumSceneItems(weakest, strongest);
+      const reviewTemplate = createReviewTemplate(weakest, strongest, tag, total);
+      const scriptMatrix = createPaidScriptMatrix(weakest, strongest);
+      const riskList = createPaidRiskList(weakest, secondWeakest);
+      const retestTable = createPaidRetestTable(weakest, strongest);
+      const manual = createPaidPersonalManual(weakest, strongest, tag);
+      return `
+        <div class="premium-pack">
+          <div class="premium-section">
+            <h4>💎 解锁专属：四维定制处方</h4>
+            <div class="premium-grid">${prescription}</div>
+          </div>
+          <div class="premium-section">
+            <h4>🗓️ 30天社会化补课路线</h4>
+            <div class="premium-list">${weeks}</div>
+          </div>
+          <div class="premium-section">
+            <h4>🎯 高频场景通关手册</h4>
+            <div class="premium-list">${scenes}</div>
+          </div>
+          <div class="premium-section">
+            <h4>🗣️ 话术升级矩阵</h4>
+            <div class="premium-matrix">${scriptMatrix}</div>
+          </div>
+          <div class="premium-section">
+            <h4>⚠️ 个性化避坑清单</h4>
+            <div class="premium-list">${riskList}</div>
+          </div>
+          <div class="premium-section">
+            <h4>📘 您的人际使用说明书</h4>
+            <div class="premium-note">${manual}</div>
+          </div>
+          <div class="premium-section">
+            <h4>📈 再次评分表</h4>
+            <table class="score-table">${retestTable}</table>
+          </div>
+          <div class="premium-section">
+            <h4>🧾 每晚3分钟复盘模板</h4>
+            <div class="template-box">${reviewTemplate}</div>
+          </div>
+          <div class="premium-section">
+            <h4>📌 使用建议</h4>
+            <p>不要把这份报告当成一次性阅读材料。最值钱的用法是：先看您的最低维度 <b>${weakest.name}</b>，连续练 7 天；再把 30 套话术里最常遇到的 5 条收藏起来，遇到真实场景时照着改一句。一个月后再回来重测一次，看分数变化。</p>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderChartFallback(data) {
+      const target = $('chartFallback');
+      const labels = ['人情洞察', '边界分寸', '利益博弈', '情绪控制'];
+      target.innerHTML = labels.map((label, index) => {
+        const score = Math.max(0, Math.min(100, Number(data[index]) || 0));
+        return `
+          <div class="chart-fallback-row">
+            <span>${label}</span>
+            <span class="chart-fallback-track"><i class="chart-fallback-fill" style="width:${score}%"></i></span>
+            <span>${score}分</span>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function drawChart(data) {
+      try {
+        const canvas = $('radarChart');
+        if (!canvas || !canvas.getContext) return;
+        const container = canvas.parentElement;
+        const width = Math.max(280, Math.floor((container && container.clientWidth) || 320));
+        const height = 300;
+        const ratio = Math.min(window.devicePixelRatio || 1, 2);
+        canvas.style.width = '100%';
+        canvas.style.height = height + 'px';
+        canvas.width = Math.floor(width * ratio);
+        canvas.height = Math.floor(height * ratio);
+        const ctx = canvas.getContext('2d');
+        ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+        ctx.clearRect(0, 0, width, height);
+
+        const labels = ['洞察', '边界', '利益', '情绪'];
+        const values = data.map((v) => Math.max(0, Math.min(100, Number(v) || 0)));
+        const centerX = width / 2;
+        const centerY = height / 2 + 6;
+        const radius = Math.min(width, height) * 0.32;
+        const count = labels.length;
+        const toPoint = (index, value) => {
+          const angle = -Math.PI / 2 + index * Math.PI * 2 / count;
+          const r = radius * value / 100;
+          return {
+            x: centerX + Math.cos(angle) * r,
+            y: centerY + Math.sin(angle) * r,
+            labelX: centerX + Math.cos(angle) * (radius + 30),
+            labelY: centerY + Math.sin(angle) * (radius + 24)
+          };
+        };
+
+        ctx.lineWidth = 1;
+        ctx.strokeStyle = '#E0E0E0';
+        for (let ring = 1; ring <= 4; ring++) {
+          const ringRadius = radius * ring / 4;
+          ctx.beginPath();
+          for (let i = 0; i < count; i++) {
+            const point = toPoint(i, ring * 25);
+            if (i === 0) ctx.moveTo(point.x, point.y);
+            else ctx.lineTo(point.x, point.y);
+          }
+          ctx.closePath();
+          ctx.stroke();
+        }
+
+        ctx.strokeStyle = '#EEEEEE';
+        for (let i = 0; i < count; i++) {
+          const point = toPoint(i, 100);
+          ctx.beginPath();
+          ctx.moveTo(centerX, centerY);
+          ctx.lineTo(point.x, point.y);
+          ctx.stroke();
+        }
+
+        const points = values.map((value, index) => toPoint(index, value));
+        ctx.beginPath();
+        points.forEach((point, index) => {
+          if (index === 0) ctx.moveTo(point.x, point.y);
+          else ctx.lineTo(point.x, point.y);
+        });
+        ctx.closePath();
+        ctx.fillStyle = 'rgba(107, 93, 184, 0.18)';
+        ctx.fill();
+        ctx.strokeStyle = '#6B5DB8';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        ctx.font = 'bold 12px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        points.forEach((point, index) => {
+          ctx.beginPath();
+          ctx.arc(point.x, point.y, 4, 0, Math.PI * 2);
+          ctx.fillStyle = '#6B5DB8';
+          ctx.fill();
+          ctx.fillText(String(values[index]), point.x, point.y - 14);
+        });
+
+        ctx.font = 'bold 13px sans-serif';
+        ctx.fillStyle = '#333';
+        labels.forEach((label, index) => {
+          const point = toPoint(index, 100);
+          ctx.fillText(label, point.labelX, point.labelY);
+        });
+      } catch (e) {
+        $('radarChart').style.display = 'none';
+        $('chartFallback').style.display = 'block';
+      }
+    }
+
+    function calcResult(restoring) {
+      const raw = [0, 0, 0, 0];
+      QUESTIONS.forEach((q, i) => {
+        const j = state.answers[i];
+        if (typeof j === 'number' && q.options[j]) raw[q.d] += q.options[j].score;
+      });
+      const scores = raw.map((s) => s * 2);
+      const total = Math.round(scores.reduce((a, b) => a + b, 0) / 4);
+      state.scores = scores;
+      state.total = total;
+
+      let key = 'mid', tag, sym, risk, summary;
+      if (total < 60) {
+        key = 'low';
+        tag = '社交隐形人';
+        sym = '在人群中毫无存在感，利益常被忽视';
+        risk = '容易成为职场背锅侠';
+        summary = '您的社交表现偏向被动，容易在复杂的人际博弈中处于下风。';
+      } else if (total < 80) {
+        key = 'mid';
+        tag = '温和跟随者';
+        sym = '能融入群体，但缺乏主导权';
+        risk = '关键时刻容易妥协吃亏';
+        summary = '您具备基本的社交常识，也能维持表面和谐，但在面对利益冲突时往往顾虑太多。';
+      } else {
+        key = 'high';
+        tag = '局势掌控者';
+        sym = '游刃有余，能利用规则获利';
+        risk = '需警惕过度精明引反感';
+        summary = '您是天生的社交高手，深谙人性弱点和潜规则。';
+      }
+      state.tag = tag;
+
+      document.querySelectorAll('.level-item').forEach((el) => el.classList.remove('active'));
+      const activeLevel = { low: 'lvl-1', mid: 'lvl-2', high: 'lvl-3' }[key];
+      $(activeLevel).classList.add('active');
+      $('resultScore').textContent = total;
+      $('personaTag').textContent = tag;
+      $('personaSym').textContent = sym;
+      $('personaRisk').textContent = risk;
+      $('summaryContent').innerHTML = `<div class="summary-text"><strong>💬 综合评价：</strong>${summary}</div>`;
+      $('hiddenDetailContent').innerHTML = TIER[key].detail;
+      $('hiddenPlanContent').innerHTML = TIER[key].plan;
+      $('hiddenBonusContent').innerHTML = createPaidBonusContent(scores, total, tag);
+
+      const fc = FREE_CONTENT[key];
+      $('freeSummary').innerHTML = fc.summary;
+      $('freeDetail').innerHTML = fc.detail;
+      $('freeBehavior').innerHTML = fc.behavior;
+      $('freeImprove').innerHTML = fc.improve;
+      $('freeValuePack').innerHTML = createFreeValuePack(scores, total, tag);
+      $('socialDecisionMap').innerHTML = createSocialDecisionMap(scores, tag);
+      renderChartFallback(scores);
+
+      state.deepUnlocked = false;
+      $('lockedContainer').classList.remove('unlocked-view');
+      $('scriptContainer').classList.add('hidden');
+      $('scriptList').innerHTML = '';
+
+      if (!restoring) writeReport();
+      setChrome(false);
+      showView(result);
+      setTimeout(() => drawChart(scores), 80);
+    }
+
+    function renderScripts() {
+      if ($('scriptList').innerHTML) return;
+      $('scriptList').innerHTML = SCRIPTS.map((item, i) => `
+        <div class="s-card">
+          <div class="s-head">
+            <span class="s-num">${i + 1}</span>
+            <span class="s-tag">${item.tag}</span>
+          </div>
+          <div class="s-q">❓ ${item.q}</div>
+          <div class="s-ans">${item.a}</div>
+        </div>
+      `).join('');
+    }
+
+    function unlockDeep() {
+      state.deepUnlocked = true;
+      renderScripts();
+      $('lockedContainer').classList.add('unlocked-view');
+      $('scriptContainer').classList.remove('hidden');
+      toast('深度版内容已解锁');
+      setTimeout(() => $('scriptContainer').scrollIntoView({ behavior: 'smooth' }), 150);
+    }
+
+    function copyText(value) {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        return navigator.clipboard.writeText(value);
+      }
+      return new Promise((resolve, reject) => {
+        const ta = document.createElement('textarea');
+        ta.value = value;
+        ta.setAttribute('readonly', 'readonly');
+        ta.style.position = 'fixed';
+        ta.style.left = '-9999px';
+        document.body.appendChild(ta);
+        ta.select();
+        try {
+          document.execCommand('copy');
+          document.body.removeChild(ta);
+          resolve();
+        } catch (e) {
+          document.body.removeChild(ta);
+          reject(e);
+        }
+      });
+    }
+
+    function copyShare() {
+      const tag = $('personaTag').textContent.trim();
+      const score = $('resultScore').textContent.trim();
+      const text = `我刚做了「社会化成熟度场景评估」，结果是「${tag}」${score}分。这40个场景题挺能照出平时的社交习惯，你也来测测？`;
+      copyText(text).then(() => {
+        $('shareStatus').textContent = '结果文案已复制，去粘贴分享即可。';
+      }).catch(() => {
+        $('shareStatus').textContent = '复制未成功，请手动截图分享。';
+      });
+    }
+
+    $('unlockBtn').onclick = unlock;
+    $('accessInput').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') unlock();
+    });
+    $('startBtn').onclick = startTest;
+    $('retestIntroBtn').onclick = startTest;
+    $('lastReportBtn').onclick = openLastReport;
+    $('prevBtn').onclick = prevQ;
+    $('nextBtn').onclick = nextQ;
+    $('deepUnlockBtn').onclick = unlockDeep;
+    $('retestBtn').onclick = backToIntro;
+    $('copyShareBtn').onclick = copyShare;
+
+    if (isUnlocked()) {
+      $('accessGate').classList.add('hidden');
+      paintHome();
+    }
+  })();
+  </script>
+</body>
+</html>
